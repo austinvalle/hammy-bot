@@ -1,0 +1,32 @@
+{
+  "name": "hammy-bot",
+  "version": "1.0.0",
+  "description": "bot for google hangouts",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "debug": "node --debug=5858 src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moosebot/hammy-bot.git"
+  },
+  "keywords": [
+    "bot",
+    "hangouts",
+    "hangupsjs",
+    "hammy",
+    "nodejs"
+  ],
+  "author": "moosebot",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moosebot/hammy-bot/issues"
+  },
+  "homepage": "https://github.com/moosebot/hammy-bot#readme",
+  "dependencies": {
+    "hangupsjs": "^1.3.1",
+    "twit": "^2.2.4"
+  }
+}
