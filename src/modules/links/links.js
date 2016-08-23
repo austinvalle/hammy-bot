@@ -19,7 +19,6 @@ module.exports = {
                     var pictureUrl = matches[i];
                     var filename = path.basename(url.parse(pictureUrl).pathname);
 
-
                     images.upload_from_url(pictureUrl, filename).then(function(id) {
                         return client.send_message(CONFIG.CLIENT_ID, null, id).then(function() {
                             client.stop_typing(ev);
