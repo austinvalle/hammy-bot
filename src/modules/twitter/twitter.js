@@ -18,12 +18,13 @@ module.exports = {
         });
 
         client.chat.on('message', function(ev, msg) {
-            client.start_typing(ev);
-            var match = msg.match(STATUS_REGEX);
+            var matches = msg.match(STATUS_REGEX);
 
-            if (match) {
-                for (var i = 0; i < match.length; i++) {
-                    var status = getStatusId(match[i]);
+            if (matches) {
+                client.start_typing(ev);
+
+                for (var i = 0; i < matches.length; i++) {
+                    var status = getStatusId(matches[i]);
 
                     twitter_client.get('statuses/show', {
                         id: status.id
