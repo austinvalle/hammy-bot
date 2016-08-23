@@ -40,8 +40,8 @@ module.exports = {
     send_message: function(client_id, segments, photo_id) {
         return hangouts.sendchatmessage(client_id, segments, photo_id);
     },
-    upload_image: function(path) {
-        return hangouts.uploadimage(path);
+    upload_image: function(path, filename) {
+        return hangouts.uploadimage(path, filename, 120000);
     },
     start_typing: function(ev) {
         hangouts.settyping(ev.conversation_id.id, Hangouts.TypingStatus.TYPING);

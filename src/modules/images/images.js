@@ -11,7 +11,7 @@ module.exports = {
         var deferred = Q.defer();
 
         download_to_cache(url, filename, function() {
-            return client.upload_image(CACHE_PATH + filename).then(function(id) {
+            return client.upload_image(CACHE_PATH + filename, filename).then(function(id) {
                 delete_from_cache(filename);
                 deferred.resolve(id);
             });
