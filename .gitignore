@@ -37,4 +37,3 @@ jspm_packages
 .node_repl_history
 
 src/config.js
-src/lib
