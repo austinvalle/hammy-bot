@@ -23,7 +23,7 @@ var chat = new events.EventEmitter();
 chat.setMaxListeners(50);
 
 hangouts.on('chat_message', function(ev) {
-    if (ev.sender_id.chat_id != CONFIG.HAMMYS_ID) {
+    if (ev.self_event_state.user_id.gaia_id != ev.sender_id.gaia_id) {
         var message = ev.chat_message.message_content.segment.reduce(function(a, b) {
             return {
                 text: a.text + b.text
