@@ -4,7 +4,7 @@ var AdmZip = require('adm-zip');
 
 try {
     var zip = new AdmZip(path.join(__dirname, process.platform + '.zip'));
-    zip.extractAllTo(path.join(__dirname, '..', '/src/libs'), true);
+    zip.extractAllTo(path.join(__dirname, '..', '/src/lib'), true);
     console.log('Giffler installed successfully, neat!');
 } catch (e) {
     console.log(e);
