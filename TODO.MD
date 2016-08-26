@@ -29,3 +29,7 @@
         - "!shortcut https://gyfcat.com/ThisIsFake thisisfake.gif"
         - "!shortcut https://imgur.com/thisisfake.gif fake.gif"
         - "!shortcut https://imgur.com/notcoolimage.jpg notcool.jpg"
+
+- movie times by request "!movietimes %moviename% %zipcode%" or "!movietimes %zipcode%"
+- tell me a joke? "!joke"
+- 
