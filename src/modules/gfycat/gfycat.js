@@ -25,11 +25,13 @@ module.exports = {
                         var filename = data.gfyItem.gifUrl.split('/').pop();
                         var pictureUrl = data.gfyItem.gifUrl;
 
-                        images.upload_from_url(pictureUrl, filename).then(function(id) {
-                            return client.send_message(CONFIG.CLIENT_ID, null, id).then(function() {
-                                client.stop_typing(ev);
+                        images.upload_from_url(pictureUrl, filename)
+                            .then(function(id) {
+                                return client.send_message(CONFIG.CLIENT_ID, null, id)
+                                    .then(function() {
+                                        client.stop_typing(ev);
+                                    });
                             });
-                        });
                     });
                 }
             }
