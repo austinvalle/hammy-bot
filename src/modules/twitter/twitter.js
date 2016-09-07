@@ -3,7 +3,7 @@ var url = require('url');
 var path = require('path');
 
 var client = require('../../client');
-var images = require('../images/images');
+var images = require('../media/images');
 var CONFIG = require('../../config');
 
 var twitter_client = new Twit({

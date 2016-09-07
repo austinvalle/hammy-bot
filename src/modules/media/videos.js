@@ -1,8 +1,8 @@
 var Q = require('q');
 
-var images = require('../images/images');
-var cache = require('../shared/cache/cache');
-var gif = require('../shared/gif/gif');
+var images = require('./images');
+var cache = require('../cache/cache');
+var gif = require('./gif');
 
 var upload_from_url = function(url, filename, uniqueId, videoLength) {
     var deferred = Q.defer();

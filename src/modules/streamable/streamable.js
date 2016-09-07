@@ -1,7 +1,7 @@
 var rp = require('request-promise');
 
 var client = require('../../client');
-var videos = require('../videos/videos');
+var videos = require('../media/videos');
 var CONFIG = require('../../config');
 
 const STREAMABLE_REGEX = /(https?:\/\/streamable\.com\/\w+)/g;

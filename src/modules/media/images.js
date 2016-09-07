@@ -1,7 +1,7 @@
 var Q = require('q');
 
 var client = require("../../client");
-var cache = require("../shared/cache/cache");
+var cache = require("../cache/cache");
 
 module.exports = {
     upload_from_url: function(url, filename) {

@@ -1,7 +1,7 @@
 var rp = require('request-promise');
 
 var client = require('../../client');
-var images = require('../images/images');
+var images = require('../media/images');
 var CONFIG = require('../../config');
 
 const GFYCAT_REGEX = /(https?:\/\/gfycat\.com\/\w+)/g;
