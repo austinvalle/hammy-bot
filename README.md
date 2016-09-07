@@ -12,3 +12,4 @@ Primarily used to monitor group-chats, provide added context to links (tweets, i
 ## APIs currently in use
 - [Twitter](https://dev.twitter.com/rest/public)
 - [XboxAPI](https://xboxapi.com/)
+- [Streamable](https://streamable.com/documentation)
