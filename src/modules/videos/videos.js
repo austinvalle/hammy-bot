@@ -9,7 +9,7 @@ var upload_from_url = function(url, filename, uniqueId, videoLength) {
 
     var videoParams = determineVideoParameters(videoLength);
 
-    cache.download(url, filename, function(downloadPath) {
+    cache.download(url, filename).then(function(downloadPath) {
         gif.convert_mp4(downloadPath, uniqueId, videoParams.start, videoParams.duration).then(function(gifPath) {
             images.upload_from_path(gifPath, uniqueId + '.gif')
                 .then(function(id) {

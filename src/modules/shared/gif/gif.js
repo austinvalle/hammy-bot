@@ -5,6 +5,7 @@ var cache = require("../cache/cache");
 
 var convert_mp4 = function(path, filename, start, duration) {
     var deferred = Q.defer();
+
     var paletteName = filename + '.png';
     var gifName = filename + '.gif';
 
@@ -26,7 +27,6 @@ var convert_mp4 = function(path, filename, start, duration) {
                     cache.delete(paletteName);
                 });
         });
-
 
     return deferred.promise;
 };
