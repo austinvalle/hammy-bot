@@ -1,45 +1,44 @@
 var async = require('async');
 var moment = require('moment');
 
-var CONFIG = require('../../config');
 var client = require('../../client');
-
+var CONFIG = require('../../config');
 var xbox = require('node-xbox')(CONFIG.XBOX.API_KEY);
 
 const PRESENCE_REGEX = /(?:^|\s)(!whosonline)(?=\s|$)/;
 
-module.exports = {
-    register: function() {
+var register = function() {
+    client.chat.on('message', function(ev, msg) {
+        var isMatch = PRESENCE_REGEX.test(msg);
 
-        client.chat.on('message', function(ev, msg) {
-            var isMatch = PRESENCE_REGEX.test(msg);
+        if (isMatch) {
+            client.start_typing(ev);
 
-            if (isMatch) {
-                client.start_typing(ev);
+            get_xbox_presences(CONFIG.XBOX.GAMERTAGS);
+        }
+    });
+};
 
-                var parallelTasks = [];
+var get_xbox_presences = function(gamertags) {
+    var parallelTasks = [];
 
-                var gamertags = CONFIG.XBOX.GAMERTAGS;
-                for (var i = 0; i < gamertags.length; i++) {
-                    var task = createPresenceTask(gamertags[i].XUID, gamertags[i].DISPLAY_NAME);
-                    parallelTasks.push(task);
-                }
-
-                async.parallel(parallelTasks,
-                    function(err, presences) {
-                        var msgSegments = buildPresenceMessage(presences);
-
-                        return client.send_message(CONFIG.CLIENT_ID, msgSegments).then(function() {
-                            client.stop_typing(ev);
-                        });
-                    }
-                );
-            }
-        });
+    for (var i = 0; i < gamertags.length; i++) {
+        var task = createPresenceTask(gamertags[i].XUID, gamertags[i].DISPLAY_NAME);
+        parallelTasks.push(task);
     }
-}
 
-function createPresenceTask(xuid, displayName) {
+    async.parallel(parallelTasks,
+        function(err, presences) {
+            var msgSegments = buildPresenceMessage(presences);
+
+            return client.send_message(CONFIG.CLIENT_ID, msgSegments).then(function() {
+                client.stop_typing(ev);
+            });
+        }
+    );
+};
+
+var createPresenceTask = function(xuid, displayName) {
     return function(callback) {
         xbox.profile.presence(xuid, function(err, res) {
             var jsonResponse = JSON.parse(res);
@@ -48,9 +47,9 @@ function createPresenceTask(xuid, displayName) {
             callback(err, jsonResponse);
         });
     };
-}
+};
 
-function buildPresenceMessage(presences) {
+var buildPresenceMessage = function(presences) {
     var builder = new client.MessageBuilder();
 
     for (var i = 0; i < presences.length; i++) {
@@ -66,9 +65,9 @@ function buildPresenceMessage(presences) {
     }
 
     return builder.toSegments();
-}
+};
 
-function buildOnlineText(builder, presence) {
+var buildOnlineText = function(builder, presence) {
     builder.text('🎮 ');
 
     var currentTitle = getCurrentTitle(presence.devices[0].titles);
@@ -78,9 +77,9 @@ function buildOnlineText(builder, presence) {
     if (currentTitle.activity) {
         builder.text(' - ').italic(currentTitle.activity.richPresence);
     }
-}
+};
 
-function buildOfflineText(builder, presence) {
+var buildOfflineText = function(builder, presence) {
     builder.text('📴 ');
     builder.bold(presence.displayName).linebreak();
 
@@ -90,16 +89,21 @@ function buildOfflineText(builder, presence) {
     } else {
         builder.bold('Offline');
     }
-}
+};
 
-function getCurrentTitle(titles) {
+var getCurrentTitle = function(titles) {
     for (var i = 0; i < titles.length; i++) {
         if (titles[i].placement == 'Full') {
             return titles[i];
         }
     }
-}
+};
 
-function getLastSeen(timestamp) {
+var getLastSeen = function(timestamp) {
     return 'Last seen ' + moment(timestamp).fromNow();
-}
+};
+
+module.exports = {
+    register: register,
+    get_xbox_presences: get_xbox_presences
+};

@@ -34,19 +34,27 @@ hangouts.on('chat_message', function(ev) {
     }
 });
 
+var send_message = function(client_id, segments, photo_id) {
+    return hangouts.sendchatmessage(client_id, segments, photo_id);
+};
+
+var upload_image = function(path, filename) {
+    return hangouts.uploadimage(path, filename, 120000);
+};
+
+var start_typing = function(ev) {
+    hangouts.settyping(ev.conversation_id.id, Hangouts.TypingStatus.TYPING);
+};
+
+var stop_typing = function(ev) {
+    hangouts.settyping(ev.conversation_id.id, Hangouts.TypingStatus.STOPPED);
+};
+
 module.exports = {
     chat: chat,
     MessageBuilder: Hangouts.MessageBuilder,
-    send_message: function(client_id, segments, photo_id) {
-        return hangouts.sendchatmessage(client_id, segments, photo_id);
-    },
-    upload_image: function(path, filename) {
-        return hangouts.uploadimage(path, filename, 120000);
-    },
-    start_typing: function(ev) {
-        hangouts.settyping(ev.conversation_id.id, Hangouts.TypingStatus.TYPING);
-    },
-    stop_typing: function(ev) {
-        hangouts.settyping(ev.conversation_id.id, Hangouts.TypingStatus.STOPPED);
-    }
+    send_message: send_message,
+    upload_image: upload_image,
+    start_typing: start_typing,
+    stop_typing: stop_typing
 };
