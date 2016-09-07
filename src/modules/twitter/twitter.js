@@ -1,9 +1,11 @@
 var Twit = require('twit');
 var url = require('url');
 var path = require('path');
+var Q = require('q');
 
 var client = require('../../client');
 var images = require('../media/images');
+var videos = require('../media/videos');
 var CONFIG = require('../../config');
 
 var twitter_client = new Twit({
@@ -24,7 +26,9 @@ var register = function() {
             client.start_typing(ev);
 
             for (var i = 0; i < matches.length; i++) {
-                upload_twitter_status(getStatusId(matches[i]));
+                upload_twitter_status(getStatusId(matches[i])).then(function() {
+                    client.stop_typing(ev);
+                });
             }
         }
     });
@@ -51,29 +55,63 @@ var getStatusId = function(uri) {
     };
 }
 
-var upload_twitter_status = function(status) {
+var upload_twitter_status = function(status, ev) {
+    var deferred = Q.defer();
+
     twitter_client.get('statuses/show', {
         id: status.id
     }, function(err, data, response) {
-        var builder = new client.MessageBuilder();
-        var segments = builder.italic('"' + data.text + '"').text(' - ').bold('@' + data.user.screen_name).toSegments();
+        var segments = build_tweet_text(data);
 
-        if (data.entities.media) {
-            var pictureUrl = data.entities.media[0].media_url;
-            var filename = path.basename(url.parse(pictureUrl).pathname);
+        if (data.extended_entities) {
+            var media = data.extended_entities.media[0];
 
-            images.upload_from_url(pictureUrl, filename).then(function(id) {
-                return client.send_message(CONFIG.CLIENT_ID, segments, id).then(function() {
-                    client.stop_typing(ev);
-                });
-            });
+            if (media.type == 'photo') {
+                handle_photo_tweet(media.media_url, segments, deferred);
+            } else if (media.type == 'animated_gif') {
+                handle_gif_tweet(media.video_info.variants[0].url, segments, deferred);
+            }
         } else {
-            return client.send_message(CONFIG.CLIENT_ID, segments).then(function() {
-                client.stop_typing(ev);
-            });
+            handle_text_tweet(segments, deferred);
         }
     });
-}
+
+    return deferred.promise;
+};
+
+var build_tweet_text = function(data) {
+    var builder = new client.MessageBuilder();
+    var segments = builder.italic('"' + data.text + '"').text(' - ').bold('@' + data.user.screen_name).toSegments();
+
+    return segments;
+};
+
+var handle_photo_tweet = function(photoUrl, segments, deferred) {
+    var filename = path.basename(url.parse(photoUrl).pathname);
+
+    images.upload_from_url(photoUrl, filename).then(function(id) {
+        return client.send_message(CONFIG.CLIENT_ID, segments, id).then(function() {
+            deferred.resolve();
+        });
+    });
+};
+
+var handle_gif_tweet = function(gifUrl, segments, deferred) {
+    var filename = path.basename(url.parse(gifUrl).pathname);
+    var uniqueId = filename.substr(0, filename.lastIndexOf('.'));
+
+    videos.upload_from_url(gifUrl, filename, uniqueId, 10).then(function(id) {
+        return client.send_message(CONFIG.CLIENT_ID, segments, id).then(function() {
+            deferred.resolve();
+        });
+    });
+};
+
+var handle_text_tweet = function(segments, deferred) {
+    return client.send_message(CONFIG.CLIENT_ID, segments).then(function() {
+        deferred.resolve();
+    });
+};
 
 module.exports = {
     register: register,
