@@ -4,10 +4,10 @@ var images = require('./images');
 var cache = require('../cache/cache');
 var gif = require('./gif');
 
-var upload_from_url = function(url, filename, uniqueId, videoLength) {
+var upload_from_url = function(url, filename, uniqueId, videoLength, start) {
     var deferred = Q.defer();
 
-    var videoParams = determineVideoParameters(videoLength);
+    var videoParams = determineVideoParameters(videoLength, start);
 
     cache.download(url, filename).then(function(downloadPath) {
         gif.convert_mp4(downloadPath, uniqueId, videoParams.start, videoParams.duration).then(function(gifPath) {
@@ -21,7 +21,15 @@ var upload_from_url = function(url, filename, uniqueId, videoLength) {
     return deferred.promise;
 };
 
-var determineVideoParameters = function(videoLength) {
+var determineVideoParameters = function(videoLength, start) {
+    if (start) {
+        return {
+            start: start,
+            duration: videoLength
+        }
+    }
+
+
     if (videoLength <= 10) {
         return {
             start: 0,
