@@ -4,8 +4,8 @@
   "description": "bot for google hangouts",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "debug": "node --debug=5858 src/index.js",
+    "start": "node lib/index.js",
+    "debug": "node --debug=5858 lib/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
