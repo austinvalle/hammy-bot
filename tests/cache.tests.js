@@ -1,4 +1,5 @@
 var sinon = require('sinon');
+var expect = require('chai').expect;
 
 var fs = require('fs');
 var request = require('request');
@@ -47,8 +48,10 @@ describe('cache module', function() {
 
         it('should call url with HEAD, then GET, and then write to stream', function(done) {
             var downloadUri = 'http://fakeurl/fakeimage.png';
+            var filename = 'fakename';
             cache.download(downloadUri, 'fakename').then(function(path) {
                 try {
+                    expect(path).to.equal(cache.PATH + filename);
                     sinon.assert.calledOnce(request.head);
                     sinon.assert.calledWith(request.head, downloadUri, sinon.match.any);
 
@@ -58,7 +61,7 @@ describe('cache module', function() {
                     sinon.assert.calledOnce(requestStub.pipe);
 
                     sinon.assert.calledOnce(fs.createWriteStream);
-                    sinon.assert.calledWith(fs.createWriteStream, cache.PATH + 'fakename');
+                    sinon.assert.calledWith(fs.createWriteStream, cache.PATH + filename);
 
                     sinon.assert.calledOnce(requestStub.on);
                     sinon.assert.calledWith(requestStub.on, 'close', sinon.match.any);

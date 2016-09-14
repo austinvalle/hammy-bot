@@ -1,4 +1,5 @@
 var sinon = require('sinon');
+var expect = require('chai').expect;
 
 var Q = require('q');
 var rp = require('request-promise');
@@ -39,8 +40,9 @@ describe('gfycat module', function() {
         });
 
         it('should call gfycat api for details, then upload to images', function(done) {
-            gfycat.upload_gfycat('fakename').then(function(id) {
+            gfycat.upload_gfycat('fakename').then(function(msg) {
                 try {
+                    expect(msg.pictureId).to.equal(1234);
                     sinon.assert.calledOnce(rp.get);
                     sinon.assert.calledOnce(images.upload_from_url);
                     sinon.assert.calledWith(images.upload_from_url, 'http://gfycat.com/fakename.gif', 'fakename.gif');
