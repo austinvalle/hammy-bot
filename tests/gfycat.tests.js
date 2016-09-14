@@ -35,7 +35,9 @@ describe('gfycat module', function() {
                     gifUrl: 'http://gfycat.com/fakename.gif'
                 }
             });
-            imgDeferred.resolve(1234);
+            imgDeferred.resolve({
+                pictureId: 1234
+            });
 
             gfycat.upload_gfycat('fakename').then(function(id) {
                 try {
