@@ -22,14 +22,7 @@ describe('gfycat module', function() {
             sinon.stub(images, 'upload_from_url', function(url, fn) {
                 return imgDeferred.promise;
             });
-        });
 
-        afterEach(function() {
-            rp.get.restore();
-            images.upload_from_url.restore();
-        });
-
-        it('should call gfycat api for details, then upload to images', function(done) {
             rpDeferred.resolve({
                 gfyItem: {
                     gifUrl: 'http://gfycat.com/fakename.gif'
@@ -38,7 +31,14 @@ describe('gfycat module', function() {
             imgDeferred.resolve({
                 pictureId: 1234
             });
+        });
 
+        afterEach(function() {
+            rp.get.restore();
+            images.upload_from_url.restore();
+        });
+
+        it('should call gfycat api for details, then upload to images', function(done) {
             gfycat.upload_gfycat('fakename').then(function(id) {
                 try {
                     sinon.assert.calledOnce(rp.get);
