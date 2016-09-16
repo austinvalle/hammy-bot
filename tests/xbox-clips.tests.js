@@ -9,13 +9,12 @@ var xboxClips = rewire('../lib/modules/xbox/xbox-clips');
 
 describe('xbox-clips module', function() {
     describe('upload xboxdvr', function() {
-        var videoDeferred,
-            XrayStub;
+        var videoDeferred;
 
         beforeEach(function() {
             videoDeferred = Q.defer();
 
-            XrayStub = function() {
+            var XrayStub = function() {
                 return function(url, tagSelector) {
                     return function(callback) {
                         callback(null, 'http://videocdn/video.mp4');
