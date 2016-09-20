@@ -34,7 +34,7 @@ describe('twitter module', function() {
                 return videoDeferred.promise;
             });
 
-            sinon.stub(images, 'upload_from_url', function(url, fn) {
+            sinon.stub(images, 'upload_from_url', function(url) {
                 return imgDeferred.promise;
             });
 
@@ -103,8 +103,7 @@ describe('twitter module', function() {
 
                     sinon.assert.calledOnce(images.upload_from_url);
                     sinon.assert.calledWith(images.upload_from_url,
-                        twitterData.extended_entities.media[0].media_url,
-                        'fakepicture.jpg');
+                        twitterData.extended_entities.media[0].media_url);
 
                     sinon.assert.notCalled(videos.upload_from_url);
 

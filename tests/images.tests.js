@@ -40,27 +40,6 @@ describe('images module', function() {
             cache.delete.restore();
         });
 
-        it('w/ filename: should download to cache, upload to client, then delete', function(done) {
-            var pictureUrl = 'http://fakeurl/fakeimage.png';
-            var filename = 'fakename.png';
-            images.upload_from_url(pictureUrl, filename).then(function(msg) {
-                try {
-                    expect(msg.pictureId).to.equal(1234);
-                    sinon.assert.calledOnce(cache.download);
-                    sinon.assert.calledWith(cache.download, pictureUrl, filename);
-
-                    sinon.assert.calledOnce(client.upload_image);
-                    sinon.assert.calledWith(client.upload_image, fakePath, filename);
-
-                    sinon.assert.calledOnce(cache.delete);
-                    sinon.assert.calledWith(cache.delete, filename);
-                    done();
-                } catch (err) {
-                    done(err);
-                }
-            });
-        });
-
         it('w/o filename: should download to cache, upload to client, then delete', function(done) {
             var pictureUrl = 'http://fakeurl/fakeimage123.jpg';
             var expectedFilename = 'fakeimage123.jpg';
