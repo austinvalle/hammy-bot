@@ -22,7 +22,7 @@ describe('streamable module', function() {
                 return rpDeferred.promise;
             });
 
-            sinon.stub(videos, 'upload_from_url', function(url, fn, id, duration) {
+            sinon.stub(videos, 'upload_from_url', function(url, start) {
                 return videoDeferred.promise;
             });
 
@@ -53,9 +53,7 @@ describe('streamable module', function() {
                     sinon.assert.calledOnce(rp.get);
                     sinon.assert.calledOnce(videos.upload_from_url);
                     sinon.assert.calledWith(videos.upload_from_url,
-                        'https://streamable.com/asdk-mobile.mp4',
-                        'asdk-mobile.mp4',
-                        'asdk');
+                        'https://streamable.com/asdk-mobile.mp4');
 
                     done();
                 } catch (err) {
@@ -81,9 +79,7 @@ describe('streamable module', function() {
                     sinon.assert.calledOnce(rp.get);
                     sinon.assert.calledOnce(videos.upload_from_url);
                     sinon.assert.calledWith(videos.upload_from_url,
-                        'https://streamable.com/asdk.mp4',
-                        'asdk.mp4',
-                        'asdk');
+                        'https://streamable.com/asdk.mp4');
 
                     done();
                 } catch (err) {

@@ -42,10 +42,8 @@ describe('videos module', function() {
         });
 
         it('w/ start param: should download, convert, and upload gif', function(done) {
-            var videoUrl = 'http://fakeurl/fakevideo.mp4',
-                filename = 'fakevideo.mp4',
-                uniqueId = 'fakevideo',
-                start = 25;
+            var videoUrl = 'http://fakeurl/fakevideo.mp4'
+            start = 25;
 
             cacheDeferred.resolve({
                 path: fakePath,
@@ -54,17 +52,17 @@ describe('videos module', function() {
                 }
             });
 
-            videos.upload_from_url(videoUrl, filename, uniqueId, start).then(function(msg) {
+            videos.upload_from_url(videoUrl, start).then(function(msg) {
                 try {
                     expect(msg.pictureId).to.equal(1234);
                     sinon.assert.calledOnce(cache.download);
-                    sinon.assert.calledWith(cache.download, videoUrl, filename);
+                    sinon.assert.calledWith(cache.download, videoUrl, 'fakevideo.mp4');
 
                     sinon.assert.calledOnce(gif.convert_mp4);
-                    sinon.assert.calledWith(gif.convert_mp4, fakePath, uniqueId, start, 30);
+                    sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', start, 30);
 
                     sinon.assert.calledOnce(images.upload_from_path);
-                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', uniqueId + '.gif');
+                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', 'fakevideo.gif');
                     done();
                 } catch (err) {
                     done(err);
@@ -73,9 +71,7 @@ describe('videos module', function() {
         });
 
         it('duration <= 10: should download, convert, and upload gif', function(done) {
-            var videoUrl = 'http://fakeurl/fakevideo.mp4',
-                filename = 'fakevideo.mp4',
-                uniqueId = 'fakevideo';
+            var videoUrl = 'http://fakeurl/fakevideo.mp4';
 
             cacheDeferred.resolve({
                 path: fakePath,
@@ -84,17 +80,17 @@ describe('videos module', function() {
                 }
             });
 
-            videos.upload_from_url(videoUrl, filename, uniqueId).then(function(msg) {
+            videos.upload_from_url(videoUrl).then(function(msg) {
                 try {
                     expect(msg.pictureId).to.equal(1234);
                     sinon.assert.calledOnce(cache.download);
-                    sinon.assert.calledWith(cache.download, videoUrl, filename);
+                    sinon.assert.calledWith(cache.download, videoUrl, 'fakevideo.mp4');
 
                     sinon.assert.calledOnce(gif.convert_mp4);
-                    sinon.assert.calledWith(gif.convert_mp4, fakePath, uniqueId, 0, 9);
+                    sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', 0, 9);
 
                     sinon.assert.calledOnce(images.upload_from_path);
-                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', uniqueId + '.gif');
+                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', 'fakevideo.gif');
                     done();
                 } catch (err) {
                     done(err);
@@ -103,9 +99,7 @@ describe('videos module', function() {
         });
 
         it('duration <= 15: should download, convert, and upload gif', function(done) {
-            var videoUrl = 'http://fakeurl/fakevideo.mp4',
-                filename = 'fakevideo.mp4',
-                uniqueId = 'fakevideo';
+            var videoUrl = 'http://fakeurl/fakevideo.mp4';
 
             cacheDeferred.resolve({
                 path: fakePath,
@@ -114,17 +108,17 @@ describe('videos module', function() {
                 }
             });
 
-            videos.upload_from_url(videoUrl, filename, uniqueId).then(function(msg) {
+            videos.upload_from_url(videoUrl).then(function(msg) {
                 try {
                     expect(msg.pictureId).to.equal(1234);
                     sinon.assert.calledOnce(cache.download);
-                    sinon.assert.calledWith(cache.download, videoUrl, filename);
+                    sinon.assert.calledWith(cache.download, videoUrl, 'fakevideo.mp4');
 
                     sinon.assert.calledOnce(gif.convert_mp4);
-                    sinon.assert.calledWith(gif.convert_mp4, fakePath, uniqueId, 3, 10);
+                    sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', 3, 10);
 
                     sinon.assert.calledOnce(images.upload_from_path);
-                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', uniqueId + '.gif');
+                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', 'fakevideo.gif');
                     done();
                 } catch (err) {
                     done(err);
@@ -133,9 +127,7 @@ describe('videos module', function() {
         });
 
         it('duration > 15: should download, convert, and upload gif', function(done) {
-            var videoUrl = 'http://fakeurl/fakevideo.mp4',
-                filename = 'fakevideo.mp4',
-                uniqueId = 'fakevideo';
+            var videoUrl = 'http://fakeurl/fakevideo.mp4';
 
             cacheDeferred.resolve({
                 path: fakePath,
@@ -144,17 +136,17 @@ describe('videos module', function() {
                 }
             });
 
-            videos.upload_from_url(videoUrl, filename, uniqueId).then(function(msg) {
+            videos.upload_from_url(videoUrl).then(function(msg) {
                 try {
                     expect(msg.pictureId).to.equal(1234);
                     sinon.assert.calledOnce(cache.download);
-                    sinon.assert.calledWith(cache.download, videoUrl, filename);
+                    sinon.assert.calledWith(cache.download, videoUrl, 'fakevideo.mp4');
 
                     sinon.assert.calledOnce(gif.convert_mp4);
-                    sinon.assert.calledWith(gif.convert_mp4, fakePath, uniqueId, 5, 10);
+                    sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', 5, 10);
 
                     sinon.assert.calledOnce(images.upload_from_path);
-                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', uniqueId + '.gif');
+                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', 'fakevideo.gif');
                     done();
                 } catch (err) {
                     done(err);

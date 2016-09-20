@@ -30,7 +30,7 @@ describe('twitter module', function() {
 
             twitterClientStub = sinon.stub(fakeTwitterClient, 'get');
 
-            sinon.stub(videos, 'upload_from_url', function(url, fn, id, duration) {
+            sinon.stub(videos, 'upload_from_url', function(url, start) {
                 return videoDeferred.promise;
             });
 
@@ -146,9 +146,7 @@ describe('twitter module', function() {
 
                     sinon.assert.calledOnce(videos.upload_from_url);
                     sinon.assert.calledWith(videos.upload_from_url,
-                        twitterData.extended_entities.media[0].video_info.variants[0].url,
-                        'fakegif.mp4',
-                        'fakegif');
+                        twitterData.extended_entities.media[0].video_info.variants[0].url);
 
                     done();
                 } catch (err) {

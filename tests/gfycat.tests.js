@@ -20,7 +20,7 @@ describe('gfycat module', function() {
                 return rpDeferred.promise;
             });
 
-            sinon.stub(videos, 'upload_from_url', function(url, fn) {
+            sinon.stub(videos, 'upload_from_url', function(url, start) {
                 return videoDeferred.promise;
             });
 
@@ -45,7 +45,7 @@ describe('gfycat module', function() {
                     expect(msg.pictureId).to.equal(1234);
                     sinon.assert.calledOnce(rp.get);
                     sinon.assert.calledOnce(videos.upload_from_url);
-                    sinon.assert.calledWith(videos.upload_from_url, 'http://gfycat.com/fakename.mp4', 'fakename.mp4');
+                    sinon.assert.calledWith(videos.upload_from_url, 'http://gfycat.com/fakename.mp4');
                     done();
                 } catch (err) {
                     done(err);

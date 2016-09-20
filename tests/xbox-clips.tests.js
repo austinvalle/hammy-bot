@@ -24,7 +24,7 @@ describe('xbox-clips module', function() {
 
             xboxClips.__set__('Xray', XrayStub);
 
-            sinon.stub(videos, 'upload_from_url', function(url, fn, id, duration) {
+            sinon.stub(videos, 'upload_from_url', function(url, start) {
                 return videoDeferred.promise;
             });
 
@@ -43,9 +43,7 @@ describe('xbox-clips module', function() {
                 try {
                     expect(msg.pictureId).to.equal(1234);
                     sinon.assert.calledWith(videos.upload_from_url,
-                        'http://videocdn/video.mp4',
-                        '1234.mp4',
-                        '1234', 18);
+                        'http://videocdn/video.mp4', 18);
 
                     done();
                 } catch (err) {
