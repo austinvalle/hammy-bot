@@ -3,49 +3,47 @@ var expect = require('chai').expect;
 
 var Q = require('q');
 var rp = require('request-promise');
-var images = require('../lib/modules/media/images');
+var videos = require('../lib/modules/media/videos');
 
 var gfycat = require('../lib/modules/gfycat/gfycat');
 
 describe('gfycat module', function() {
     describe('upload gfycat', function() {
         var rpDeferred,
-            imgDeferred;
+            videoDeferred;
 
         beforeEach(function() {
             rpDeferred = Q.defer();
-            imgDeferred = Q.defer();
+            videoDeferred = Q.defer();
 
             sinon.stub(rp, 'get', function(options) {
                 return rpDeferred.promise;
             });
 
-            sinon.stub(images, 'upload_from_url', function(url, fn) {
-                return imgDeferred.promise;
+            sinon.stub(videos, 'upload_from_url', function(url, fn) {
+                return videoDeferred.promise;
             });
 
             rpDeferred.resolve({
                 gfyItem: {
-                    gifUrl: 'http://gfycat.com/fakename.gif'
+                    mobileUrl: 'http://gfycat.com/fakename.mp4'
                 }
             });
-            imgDeferred.resolve({
-                pictureId: 1234
-            });
+            videoDeferred.resolve(1234);
         });
 
         afterEach(function() {
             rp.get.restore();
-            images.upload_from_url.restore();
+            videos.upload_from_url.restore();
         });
 
-        it('should call gfycat api for details, then upload to images', function(done) {
+        it('should call gfycat api for details, then upload to videos', function(done) {
             gfycat.upload_gfycat('fakename').then(function(msg) {
                 try {
                     expect(msg.pictureId).to.equal(1234);
                     sinon.assert.calledOnce(rp.get);
-                    sinon.assert.calledOnce(images.upload_from_url);
-                    sinon.assert.calledWith(images.upload_from_url, 'http://gfycat.com/fakename.gif', 'fakename.gif');
+                    sinon.assert.calledOnce(videos.upload_from_url);
+                    sinon.assert.calledWith(videos.upload_from_url, 'http://gfycat.com/fakename.mp4', 'fakename.mp4');
                     done();
                 } catch (err) {
                     done(err);
