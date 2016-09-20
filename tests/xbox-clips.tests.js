@@ -28,7 +28,9 @@ describe('xbox-clips module', function() {
                 return videoDeferred.promise;
             });
 
-            videoDeferred.resolve(1234);
+            videoDeferred.resolve({
+                pictureId: 1234
+            });
         });
 
         afterEach(function() {

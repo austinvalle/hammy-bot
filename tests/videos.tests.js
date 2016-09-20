@@ -54,9 +54,9 @@ describe('videos module', function() {
                 }
             });
 
-            videos.upload_from_url(videoUrl, filename, uniqueId, start).then(function(id) {
+            videos.upload_from_url(videoUrl, filename, uniqueId, start).then(function(msg) {
                 try {
-                    expect(id).to.equal(1234);
+                    expect(msg.pictureId).to.equal(1234);
                     sinon.assert.calledOnce(cache.download);
                     sinon.assert.calledWith(cache.download, videoUrl, filename);
 
@@ -84,9 +84,9 @@ describe('videos module', function() {
                 }
             });
 
-            videos.upload_from_url(videoUrl, filename, uniqueId).then(function(id) {
+            videos.upload_from_url(videoUrl, filename, uniqueId).then(function(msg) {
                 try {
-                    expect(id).to.equal(1234);
+                    expect(msg.pictureId).to.equal(1234);
                     sinon.assert.calledOnce(cache.download);
                     sinon.assert.calledWith(cache.download, videoUrl, filename);
 
@@ -114,9 +114,9 @@ describe('videos module', function() {
                 }
             });
 
-            videos.upload_from_url(videoUrl, filename, uniqueId).then(function(id) {
+            videos.upload_from_url(videoUrl, filename, uniqueId).then(function(msg) {
                 try {
-                    expect(id).to.equal(1234);
+                    expect(msg.pictureId).to.equal(1234);
                     sinon.assert.calledOnce(cache.download);
                     sinon.assert.calledWith(cache.download, videoUrl, filename);
 
@@ -144,9 +144,9 @@ describe('videos module', function() {
                 }
             });
 
-            videos.upload_from_url(videoUrl, filename, uniqueId).then(function(id) {
+            videos.upload_from_url(videoUrl, filename, uniqueId).then(function(msg) {
                 try {
-                    expect(id).to.equal(1234);
+                    expect(msg.pictureId).to.equal(1234);
                     sinon.assert.calledOnce(cache.download);
                     sinon.assert.calledWith(cache.download, videoUrl, filename);
 

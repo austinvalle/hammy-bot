@@ -42,7 +42,9 @@ describe('twitter module', function() {
                 pictureId: 1234
             });
 
-            videoDeferred.resolve(12345678);
+            videoDeferred.resolve({
+                pictureId: 12345678
+            });
         });
 
         afterEach(function() {

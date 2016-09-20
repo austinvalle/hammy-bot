@@ -29,7 +29,9 @@ describe('gfycat module', function() {
                     mobileUrl: 'http://gfycat.com/fakename.mp4'
                 }
             });
-            videoDeferred.resolve(1234);
+            videoDeferred.resolve({
+                pictureId: 1234
+            });
         });
 
         afterEach(function() {
