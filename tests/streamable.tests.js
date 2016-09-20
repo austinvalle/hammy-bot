@@ -39,8 +39,7 @@ describe('streamable module', function() {
                 files: {
                     'mp4': {},
                     'mp4-mobile': {
-                        url: '//streamable.com/asdk-mobile.mp4',
-                        duration: 30
+                        url: '//streamable.com/asdk-mobile.mp4'
                     }
                 }
             });
@@ -54,7 +53,7 @@ describe('streamable module', function() {
                     sinon.assert.calledWith(videos.upload_from_url,
                         'https://streamable.com/asdk-mobile.mp4',
                         'asdk-mobile.mp4',
-                        'asdk', 30);
+                        'asdk');
 
                     done();
                 } catch (err) {
@@ -68,8 +67,7 @@ describe('streamable module', function() {
                 title: 'Fake title',
                 files: {
                     'mp4': {
-                        url: '//streamable.com/asdk.mp4',
-                        duration: 30
+                        url: '//streamable.com/asdk.mp4'
                     }
                 }
             });
@@ -83,7 +81,7 @@ describe('streamable module', function() {
                     sinon.assert.calledWith(videos.upload_from_url,
                         'https://streamable.com/asdk.mp4',
                         'asdk.mp4',
-                        'asdk', 30);
+                        'asdk');
 
                     done();
                 } catch (err) {

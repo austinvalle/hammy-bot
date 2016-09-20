@@ -146,8 +146,7 @@ describe('twitter module', function() {
                     sinon.assert.calledWith(videos.upload_from_url,
                         twitterData.extended_entities.media[0].video_info.variants[0].url,
                         'fakegif.mp4',
-                        'fakegif',
-                        10);
+                        'fakegif');
 
                     done();
                 } catch (err) {

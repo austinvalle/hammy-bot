@@ -1,16 +1,30 @@
 var sinon = require('sinon');
 var expect = require('chai').expect;
+var rewire = require("rewire");
 
 var fs = require('fs');
 var request = require('request');
 
-var cache = require('../lib/modules/cache/cache');
+var cache = rewire('../lib/modules/cache/cache');
 
 describe('cache module', function() {
     describe('download from url', function() {
-        var requestStub;
+        var requestStub,
+            ffmpegStub;
 
         beforeEach(function() {
+            ffmpegStub = {
+                ffprobe: function(path, callback) {}
+            };
+
+            cache.__set__('ffmpeg', ffmpegStub);
+
+            sinon.stub(ffmpegStub, 'ffprobe').callsArgWith(1, null, {
+                format: {
+                    duration: 44
+                }
+            });
+
             sinon.stub(request, 'head').callsArgWith(1, null, {}, {});
 
             requestStub = {
@@ -46,10 +60,11 @@ describe('cache module', function() {
             requestStub.on.restore();
         });
 
-        it('should call url with HEAD, then GET, and then write to stream', function(done) {
+        it('should download file', function(done) {
             var downloadUri = 'http://fakeurl/fakeimage.png';
-            var filename = 'fakename';
-            cache.download(downloadUri, 'fakename').then(function(path) {
+            var filename = 'fakename.png';
+
+            cache.download(downloadUri, filename).then(function(path) {
                 try {
                     expect(path).to.equal(cache.PATH + filename);
                     sinon.assert.calledOnce(request.head);
@@ -65,6 +80,37 @@ describe('cache module', function() {
 
                     sinon.assert.calledOnce(requestStub.on);
                     sinon.assert.calledWith(requestStub.on, 'close', sinon.match.any);
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
+
+        it('should download file, then get metadata for video', function(done) {
+            var downloadUri = 'http://fakeurl/fakevideo.mp4';
+            var filename = 'fakename.mp4';
+
+            cache.download(downloadUri, filename).then(function(response) {
+                try {
+                    expect(response.path).to.equal(cache.PATH + filename);
+                    expect(response.metadata.duration).to.equal(44);
+
+                    sinon.assert.calledOnce(request.head);
+                    sinon.assert.calledWith(request.head, downloadUri, sinon.match.any);
+
+                    sinon.assert.calledOnce(request.get);
+                    sinon.assert.calledWith(request.get, downloadUri);
+
+                    sinon.assert.calledOnce(requestStub.pipe);
+
+                    sinon.assert.calledOnce(fs.createWriteStream);
+                    sinon.assert.calledWith(fs.createWriteStream, cache.PATH + filename);
+
+                    sinon.assert.calledOnce(requestStub.on);
+                    sinon.assert.calledWith(requestStub.on, 'close', sinon.match.any);
+
+                    sinon.assert.calledOnce(ffmpegStub.ffprobe);
                     done();
                 } catch (err) {
                     done(err);

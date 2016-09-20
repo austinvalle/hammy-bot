@@ -31,7 +31,6 @@ describe('videos module', function() {
                 return uploadDeferred.promise;
             });
 
-            cacheDeferred.resolve(fakePath);
             gifDeferred.resolve(fakePath + '.gif');
             uploadDeferred.resolve(1234);
         });
@@ -46,17 +45,23 @@ describe('videos module', function() {
             var videoUrl = 'http://fakeurl/fakevideo.mp4',
                 filename = 'fakevideo.mp4',
                 uniqueId = 'fakevideo',
-                duration = 30,
                 start = 25;
 
-            videos.upload_from_url(videoUrl, filename, uniqueId, duration, start).then(function(id) {
+            cacheDeferred.resolve({
+                path: fakePath,
+                metadata: {
+                    duration: 30
+                }
+            });
+
+            videos.upload_from_url(videoUrl, filename, uniqueId, start).then(function(id) {
                 try {
                     expect(id).to.equal(1234);
                     sinon.assert.calledOnce(cache.download);
                     sinon.assert.calledWith(cache.download, videoUrl, filename);
 
                     sinon.assert.calledOnce(gif.convert_mp4);
-                    sinon.assert.calledWith(gif.convert_mp4, fakePath, uniqueId, start, duration);
+                    sinon.assert.calledWith(gif.convert_mp4, fakePath, uniqueId, start, 30);
 
                     sinon.assert.calledOnce(images.upload_from_path);
                     sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', uniqueId + '.gif');
@@ -70,17 +75,23 @@ describe('videos module', function() {
         it('duration <= 10: should download, convert, and upload gif', function(done) {
             var videoUrl = 'http://fakeurl/fakevideo.mp4',
                 filename = 'fakevideo.mp4',
-                uniqueId = 'fakevideo',
-                duration = 9;
+                uniqueId = 'fakevideo';
 
-            videos.upload_from_url(videoUrl, filename, uniqueId, duration).then(function(id) {
+            cacheDeferred.resolve({
+                path: fakePath,
+                metadata: {
+                    duration: 9
+                }
+            });
+
+            videos.upload_from_url(videoUrl, filename, uniqueId).then(function(id) {
                 try {
                     expect(id).to.equal(1234);
                     sinon.assert.calledOnce(cache.download);
                     sinon.assert.calledWith(cache.download, videoUrl, filename);
 
                     sinon.assert.calledOnce(gif.convert_mp4);
-                    sinon.assert.calledWith(gif.convert_mp4, fakePath, uniqueId, 0, duration);
+                    sinon.assert.calledWith(gif.convert_mp4, fakePath, uniqueId, 0, 9);
 
                     sinon.assert.calledOnce(images.upload_from_path);
                     sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', uniqueId + '.gif');
@@ -94,10 +105,16 @@ describe('videos module', function() {
         it('duration <= 15: should download, convert, and upload gif', function(done) {
             var videoUrl = 'http://fakeurl/fakevideo.mp4',
                 filename = 'fakevideo.mp4',
-                uniqueId = 'fakevideo',
-                duration = 13;
+                uniqueId = 'fakevideo';
 
-            videos.upload_from_url(videoUrl, filename, uniqueId, duration).then(function(id) {
+            cacheDeferred.resolve({
+                path: fakePath,
+                metadata: {
+                    duration: 13
+                }
+            });
+
+            videos.upload_from_url(videoUrl, filename, uniqueId).then(function(id) {
                 try {
                     expect(id).to.equal(1234);
                     sinon.assert.calledOnce(cache.download);
@@ -118,10 +135,16 @@ describe('videos module', function() {
         it('duration > 15: should download, convert, and upload gif', function(done) {
             var videoUrl = 'http://fakeurl/fakevideo.mp4',
                 filename = 'fakevideo.mp4',
-                uniqueId = 'fakevideo',
-                duration = 25;
+                uniqueId = 'fakevideo';
 
-            videos.upload_from_url(videoUrl, filename, uniqueId, duration).then(function(id) {
+            cacheDeferred.resolve({
+                path: fakePath,
+                metadata: {
+                    duration: 25
+                }
+            });
+
+            videos.upload_from_url(videoUrl, filename, uniqueId).then(function(id) {
                 try {
                     expect(id).to.equal(1234);
                     sinon.assert.calledOnce(cache.download);

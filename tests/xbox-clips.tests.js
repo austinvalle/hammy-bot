@@ -43,7 +43,7 @@ describe('xbox-clips module', function() {
                     sinon.assert.calledWith(videos.upload_from_url,
                         'http://videocdn/video.mp4',
                         '1234.mp4',
-                        '1234', 28, 18);
+                        '1234', 18);
 
                     done();
                 } catch (err) {
