@@ -85,16 +85,15 @@ describe('images module', function() {
 
         it('should upload to client, then delete', function(done) {
             var fakePath = 'fake/path/to/fakeimg.gif';
-            var filename = 'fakeimg.gif';
 
-            images.upload_from_path(fakePath, filename).then(function(id) {
+            images.upload_from_path(fakePath).then(function(id) {
                 try {
                     expect(id).to.equal(1234);
                     sinon.assert.calledOnce(client.upload_image);
-                    sinon.assert.calledWith(client.upload_image, fakePath, filename);
+                    sinon.assert.calledWith(client.upload_image, fakePath, 'fakeimg.gif');
 
                     sinon.assert.calledOnce(cache.delete);
-                    sinon.assert.calledWith(cache.delete, filename);
+                    sinon.assert.calledWith(cache.delete, 'fakeimg.gif');
                     done();
                 } catch (err) {
                     done(err);

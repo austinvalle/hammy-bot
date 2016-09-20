@@ -62,7 +62,7 @@ describe('videos module', function() {
                     sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', start, 30);
 
                     sinon.assert.calledOnce(images.upload_from_path);
-                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', 'fakevideo.gif');
+                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif');
                     done();
                 } catch (err) {
                     done(err);
@@ -90,7 +90,7 @@ describe('videos module', function() {
                     sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', 0, 9);
 
                     sinon.assert.calledOnce(images.upload_from_path);
-                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', 'fakevideo.gif');
+                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif');
                     done();
                 } catch (err) {
                     done(err);
@@ -118,7 +118,7 @@ describe('videos module', function() {
                     sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', 3, 10);
 
                     sinon.assert.calledOnce(images.upload_from_path);
-                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', 'fakevideo.gif');
+                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif');
                     done();
                 } catch (err) {
                     done(err);
@@ -146,7 +146,7 @@ describe('videos module', function() {
                     sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', 5, 10);
 
                     sinon.assert.calledOnce(images.upload_from_path);
-                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif', 'fakevideo.gif');
+                    sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif');
                     done();
                 } catch (err) {
                     done(err);
