@@ -153,5 +153,51 @@ describe('twitter module', function() {
                 }
             });
         });
+
+        it('if native video attached: return tweet text and uploaded gif id', function(done) {
+            var statusId = '12345678',
+                twitterUrl = ' https://twitter.com/FakeProfile/status/' + statusId,
+                twitterData = {
+                    text: 'Here is a fake tweet with a gif bro!',
+                    user: {
+                        screen_name: 'FakeTweeter123'
+                    },
+                    extended_entities: {
+                        media: [{
+                            type: 'video',
+                            video_info: {
+                                variants: [{
+                                    content_type: 'video/mp4',
+                                    bitrate: 32000,
+                                    url: 'http://fakeurl/fakesmallvideo.mp4'
+                                }, {
+                                    content_type: 'video/mp4',
+                                    bitrate: 832000,
+                                    url: 'http://fakeurl/fakevideo.mp4'
+                                }]
+                            }
+                        }]
+                    }
+                };
+            twitterClientStub.callsArgWith(2, null, twitterData, null);
+
+            twitter.upload_twitter_status(twitterUrl).then(function(msg) {
+                try {
+                    expect(msg.pictureId).to.equal(12345678);
+                    expect(msg.segments[0][1]).to.equal('"' + twitterData.text + '"');
+                    expect(msg.segments[2][1]).to.equal('@' + twitterData.user.screen_name);
+
+                    sinon.assert.notCalled(images.upload_from_url);
+
+                    sinon.assert.calledOnce(videos.upload_from_url);
+                    sinon.assert.calledWith(videos.upload_from_url,
+                        twitterData.extended_entities.media[0].video_info.variants[1].url);
+
+                    done();
+                } catch (err) {
+                    done(err);
+                }
+            });
+        });
     });
 });
