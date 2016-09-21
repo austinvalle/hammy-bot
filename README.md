@@ -14,3 +14,4 @@ Primarily used to monitor group-chats, provide added context to links (tweets, i
 - [Twitter](https://dev.twitter.com/rest/public)
 - [XboxAPI](https://xboxapi.com/)
 - [Streamable](https://streamable.com/documentation)
+- [fluent-ffmpeg](https://github.com/fluent-ffmpeg/node-fluent-ffmpeg) (Requires ffmpeg binaries installed)
