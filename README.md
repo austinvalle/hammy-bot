@@ -7,7 +7,16 @@ Modular bot framework for google hangouts built w/ nodejs and [hangupsjs](https:
 
 Primarily used to monitor group-chats, provide added context to links (tweets, images, animated gifs, etc.) and accept commands from users to perform various tasks. 
 
-## what hammy-bot can do
+## setting up hammy
+
+* download hammy-bot from github
+* open cmd prompt and navigate to hammy-bot directory
+* run "npm start"
+* follow prompts on cmd prompt to enter authorization token
+  * There is currently an outstanding issue with hangupsjs, until there is a workaround/resolution, you won't be able to start hammy
+  * see [hangupsjs issue](https://github.com/yakyak/hangupsjs/issues/52) and [hangups issue](https://github.com/tdryer/hangups/issues/260)
+
+## what hammy can do
 
 * Post GIFs from gfycat
 
