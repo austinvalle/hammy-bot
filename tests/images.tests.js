@@ -20,11 +20,11 @@ describe('images module', function() {
             cacheDeferred = Q.defer();
             uploadDeferred = Q.defer();
 
-            sinon.stub(cache, 'download', function(pUrl, fn) {
+            sinon.stub(cache, 'download').callsFake(function(pUrl, fn) {
                 return cacheDeferred.promise;
             });
 
-            sinon.stub(client, 'upload_image', function(path, fn) {
+            sinon.stub(client, 'upload_image').callsFake(function(path, fn) {
                 return uploadDeferred.promise;
             });
 
@@ -42,19 +42,18 @@ describe('images module', function() {
 
         it('w/o filename: should download to cache, upload to client, then delete', function(done) {
             var pictureUrl = 'http://fakeurl/fakeimage123.jpg';
-            var expectedFilename = 'fakeimage123.jpg';
 
             images.upload_from_url(pictureUrl).then(function(msg) {
                 try {
                     expect(msg.pictureId).to.equal(1234);
                     sinon.assert.calledOnce(cache.download);
-                    sinon.assert.calledWith(cache.download, pictureUrl, expectedFilename);
+                    sinon.assert.calledWith(cache.download, pictureUrl, sinon.match.any);
 
                     sinon.assert.calledOnce(client.upload_image);
-                    sinon.assert.calledWith(client.upload_image, fakePath, expectedFilename);
+                    sinon.assert.calledWith(client.upload_image, fakePath, sinon.match.any);
 
                     sinon.assert.calledOnce(cache.delete);
-                    sinon.assert.calledWith(cache.delete, expectedFilename);
+                    sinon.assert.calledWith(cache.delete, sinon.match.any);
                     done();
                 } catch (err) {
                     done(err);
@@ -69,7 +68,7 @@ describe('images module', function() {
         beforeEach(function() {
             uploadDeferred = Q.defer();
 
-            sinon.stub(client, 'upload_image', function(path, fn) {
+            sinon.stub(client, 'upload_image').callsFake(function(path, fn) {
                 return uploadDeferred.promise;
             });
 

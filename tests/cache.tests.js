@@ -39,17 +39,17 @@ describe('cache module', function() {
                 }
             };
 
-            sinon.stub(request, 'get', function(uri) {
+            sinon.stub(request, 'get').callsFake(function(uri) {
                 return requestStub;
             });
 
-            sinon.stub(requestStub, 'pipe', function(stream) {
+            sinon.stub(requestStub, 'pipe').callsFake(function(stream) {
                 return requestStub;
             });
 
             sinon.stub(requestStub, 'on').callsArg(1);
 
-            sinon.stub(fs, 'createWriteStream', function(path) {});
+            sinon.stub(fs, 'createWriteStream').callsFake(function(path) {});
         });
 
         afterEach(function() {

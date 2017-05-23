@@ -21,13 +21,13 @@ describe('videos module', function() {
             gifDeferred = Q.defer();
             uploadDeferred = Q.defer();
 
-            sinon.stub(cache, 'download', function(pUrl, fn) {
+            sinon.stub(cache, 'download').callsFake(function(pUrl, fn) {
                 return cacheDeferred.promise;
             });
-            sinon.stub(gif, 'convert_mp4', function(path, id, start, duration) {
+            sinon.stub(gif, 'convert_mp4').callsFake(function(path, id, start, duration) {
                 return gifDeferred.promise;
             });
-            sinon.stub(images, 'upload_from_path', function(path, fn) {
+            sinon.stub(images, 'upload_from_path').callsFake(function(path, fn) {
                 return uploadDeferred.promise;
             });
 

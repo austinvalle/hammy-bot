@@ -30,11 +30,11 @@ describe('twitter module', function() {
 
             twitterClientStub = sinon.stub(fakeTwitterClient, 'get');
 
-            sinon.stub(videos, 'upload_from_url', function(url, start) {
+            sinon.stub(videos, 'upload_from_url').callsFake(function(url, start) {
                 return videoDeferred.promise;
             });
 
-            sinon.stub(images, 'upload_from_url', function(url) {
+            sinon.stub(images, 'upload_from_url').callsFake(function(url) {
                 return imgDeferred.promise;
             });
 

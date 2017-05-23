@@ -24,7 +24,7 @@ describe('xbox-clips module', function() {
 
             xboxClips.__set__('Xray', XrayStub);
 
-            sinon.stub(videos, 'upload_from_url', function(url, start) {
+            sinon.stub(videos, 'upload_from_url').callsFake(function(url, start) {
                 return videoDeferred.promise;
             });
 

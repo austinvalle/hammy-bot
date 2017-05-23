@@ -18,11 +18,11 @@ describe('streamable module', function() {
             rpDeferred = Q.defer();
             videoDeferred = Q.defer();
 
-            sinon.stub(rp, 'get', function(options) {
+            sinon.stub(rp, 'get').callsFake(function(options) {
                 return rpDeferred.promise;
             });
 
-            sinon.stub(videos, 'upload_from_url', function(url, start) {
+            sinon.stub(videos, 'upload_from_url').callsFake(function(url, start) {
                 return videoDeferred.promise;
             });
 

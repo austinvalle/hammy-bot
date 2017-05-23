@@ -26,23 +26,23 @@ describe('gif module', function() {
                 return ffmpegStub
             });
 
-            sinon.stub(ffmpegStub, 'seekInput', function(start) {
+            sinon.stub(ffmpegStub, 'seekInput').callsFake(function(start) {
                 return ffmpegStub;
             });
-            sinon.stub(ffmpegStub, 'inputOptions', function(start) {
+            sinon.stub(ffmpegStub, 'inputOptions').callsFake(function(start) {
                 return ffmpegStub;
             });
-            sinon.stub(ffmpegStub, 'videoFilter', function(start) {
+            sinon.stub(ffmpegStub, 'videoFilter').callsFake(function(start) {
                 return ffmpegStub;
             });
-            sinon.stub(ffmpegStub, 'save', function(start) {
+            sinon.stub(ffmpegStub, 'save').callsFake(function(start) {
                 return ffmpegStub;
             });
             sinon.stub(ffmpegStub, 'on').callsArg(1);
-            sinon.stub(ffmpegStub, 'input', function(path) {
+            sinon.stub(ffmpegStub, 'input').callsFake(function(path) {
                 return ffmpegStub;
             });
-            sinon.stub(ffmpegStub, 'complexFilter', function(filter) {
+            sinon.stub(ffmpegStub, 'complexFilter').callsFake(function(filter) {
                 return ffmpegStub;
             });
             sinon.stub(cache, 'delete');
