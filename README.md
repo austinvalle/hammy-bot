@@ -49,7 +49,7 @@ Primarily used to monitor group-chats, provide added context to links (tweets, i
 
 ## APIs currently in use
 * [Gfycat](https://gfycat.com/api)
-* [Giphy](https://github.com/Giphy/GiphyAPIi)
+* [Giphy](https://github.com/Giphy/GiphyAPI)
 * [Twitter](https://dev.twitter.com/rest/public)
 * [XboxAPI](https://xboxapi.com/)
 * [Streamable](https://streamable.com/documentation)
