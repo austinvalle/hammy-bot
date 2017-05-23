@@ -5,7 +5,7 @@ hammy-bot
 
 Modular bot framework for google hangouts built w/ nodejs and [hangupsjs](https://github.com/yakyak/hangupsjs).
 
-Primarily used to monitor group-chats, provide added context to links (tweets, images, animated gifs, etc.) and accept commands from users to perform various tasks. 
+Primarily used to monitor group-chats, provide added context to links (tweets, images, animated gifs, etc.) and accept commands from users to perform various tasks.
 
 ## setting up hammy
 
@@ -42,9 +42,14 @@ Primarily used to monitor group-chats, provide added context to links (tweets, i
 
 ![xbox dvr example](http://i.imgur.com/LBpKKg8.gif)
 
+* Post random GIFs provided by Giphy (5/23/2017)
+
+![random giphy example](http://i.imgur.com/R2jWfYi.gif)
+
 
 ## APIs currently in use
 * [Gfycat](https://gfycat.com/api)
+* [Giphy](https://github.com/Giphy/GiphyAPIi)
 * [Twitter](https://dev.twitter.com/rest/public)
 * [XboxAPI](https://xboxapi.com/)
 * [Streamable](https://streamable.com/documentation)
