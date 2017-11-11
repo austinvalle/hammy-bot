@@ -3,7 +3,7 @@ hammy-bot
 
 ![hammy-bot logo](logo.png)
 
-Modular bot framework for google hangouts built w/ nodejs and [hangupsjs](https://github.com/yakyak/hangupsjs).
+Modular bot for google hangouts built w/ nodejs and [hangupsjs](https://github.com/yakyak/hangupsjs).
 
 Primarily used to monitor group-chats, provide added context to links (tweets, images, animated gifs, etc.) and accept commands from users to perform various tasks.
 
