@@ -10,6 +10,11 @@ Primarily used to monitor group-chats, provide added context to links (tweets, i
 ## setting up hammy
 
 * download hammy-bot from github
+* set following environment variables to enable Twitter
+  * TWITTER_CONSUMER_KEY
+  * TWITTER_CONSUMER_SECRET
+  * TWITTER_ACCESS_TOKEN
+  * TWITTER_ACCESS_TOKEN_SECRET
 * open cmd prompt and navigate to hammy-bot directory
 * run "npm start"
 * follow prompts on cmd prompt to enter authorization token
