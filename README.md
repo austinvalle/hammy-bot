@@ -1,4 +1,4 @@
-hammy-bot
+hammy-bot [![Build Status](https://img.shields.io/travis/twbs/bootstrap/v4-dev.svg)](https://travis-ci.org/moosebot/hammy-bot)
 =========
 
 ![hammy-bot logo](logo.png)
