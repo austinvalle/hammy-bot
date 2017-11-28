@@ -22,10 +22,6 @@ Primarily used to monitor group-chats, provide added context to links (tweets, i
 
 ![gfycat example](http://i.imgur.com/bNhzBDA.gif)
 
-* Get the xbox online status of users defined in the configuration file
-
-![!whosonline example](http://i.imgur.com/NA885cU.png)
-
 * Post direct url images/videos for JPG,PNG,JPEG,GIF,MP4 links
 
 ![direct url example](http://i.imgur.com/iv878LP.png)
@@ -51,6 +47,5 @@ Primarily used to monitor group-chats, provide added context to links (tweets, i
 * [Gfycat](https://gfycat.com/api)
 * [Giphy](https://github.com/Giphy/GiphyAPI)
 * [Twitter](https://dev.twitter.com/rest/public)
-* [XboxAPI](https://xboxapi.com/)
 * [Streamable](https://streamable.com/documentation)
 * [fluent-ffmpeg](https://github.com/fluent-ffmpeg/node-fluent-ffmpeg) (Requires ffmpeg binaries installed)
