@@ -1,4 +1,6 @@
-hammy-bot [![Build Status](https://img.shields.io/travis/moosebot/hammy-bot/master.svg)](https://travis-ci.org/moosebot/hammy-bot)
+hammy-bot 
+[![Release](https://img.shields.io/github/release/moosebot/hammy-bot.svg)](https://github.com/moosebot/hammy-bot)
+[![Build Status](https://img.shields.io/travis/moosebot/hammy-bot/master.svg)](https://travis-ci.org/moosebot/hammy-bot)
 =========
 
 ![hammy-bot logo](logo.png)
@@ -43,7 +45,7 @@ Primarily used to monitor group-chats, provide added context to links (tweets, i
 
 ![xbox dvr example](http://i.imgur.com/LBpKKg8.gif)
 
-* Post random GIFs provided by Giphy (5/23/2017)
+* Post random GIFs provided by Giphy
 
 ![random giphy example](http://i.imgur.com/R2jWfYi.gif)
 
