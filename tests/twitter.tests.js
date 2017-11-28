@@ -9,6 +9,11 @@ var Q = require('q');
 var images = require('../lib/modules/media/images');
 var videos = require('../lib/modules/media/videos');
 
+process.env.TWITTER_CONSUMER_KEY = "FAKECONSUMERKEY";
+process.env.TWITTER_CONSUMER_SECRET = "FAKECONSUMERSECRET";
+process.env.TWITTER_ACCESS_TOKEN = "FAKEACCESSTOKEN";
+process.env.TWITTER_ACCESS_TOKEN_SECRET = "FAKEACCESSSECRET";
+
 var twitter = rewire('../lib/modules/twitter/twitter');
 
 describe('twitter module', function() {
