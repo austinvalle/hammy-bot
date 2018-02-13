@@ -6,7 +6,7 @@ hammy-bot
  <img src="logo.png" width="700">
 </p>
 
-*Logo design by Gina Rasicci*
+*Logo design by ![Gina Rasicci](http://www.ginarasicci.com/)*
 <hr>
 Modular bot for google hangouts built w/ nodejs and [hangupsjs](https://github.com/yakyak/hangupsjs).
 
