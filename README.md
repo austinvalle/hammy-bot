@@ -2,9 +2,12 @@ hammy-bot
 [![Release](https://img.shields.io/github/release/moosebot/hammy-bot.svg)](https://github.com/moosebot/hammy-bot)
 [![Build Status](https://img.shields.io/travis/moosebot/hammy-bot/master.svg)](https://travis-ci.org/moosebot/hammy-bot)
 =========
+<p align="center">
+ <img src="logo.png" width="700">
+</p>
 
-![hammy-bot logo](logo.png)
-
+*Logo design by Gina Rasicci*
+<hr>
 Modular bot for google hangouts built w/ nodejs and [hangupsjs](https://github.com/yakyak/hangupsjs).
 
 Primarily used to monitor group-chats, provide added context to links (tweets, images, animated gifs, etc.) and accept commands from users to perform various tasks.
