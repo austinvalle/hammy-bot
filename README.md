@@ -8,7 +8,8 @@ hammy-bot
 
 *Logo design by [Gina Rasicci](http://www.ginarasicci.com/)*
 <hr>
-Modular bot for google hangouts built w/ nodejs and [hangupsjs](https://github.com/yakyak/hangupsjs).
+
+Modular bot for google hangouts built w/ nodejs and [hangupsjs](https://github.com/yakyak/hangupsjs/) .
 
 Primarily used to monitor group-chats, provide added context to links (tweets, images, animated gifs, etc.) and accept commands from users to perform various tasks.
 
