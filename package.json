@@ -26,21 +26,21 @@
   },
   "homepage": "https://github.com/moosebot/hammy-bot#readme",
   "dependencies": {
-    "async": "^2.6.0",
+    "async": "^2.6.1",
     "fluent-ffmpeg": "^2.1.2",
-    "fs-extra": "^4.0.3",
+    "fs-extra": "^6.0.1",
     "giphy-api": "^1.2.7",
     "hangupsjs": "https://github.com/yakyak/hangupsjs.git",
-    "moment": "^2.21.0",
+    "moment": "^2.22.2",
     "request-promise": "^4.2.2",
     "tough-cookie-filestore": "0.0.1",
-    "twit": "^2.2.9",
+    "twit": "^2.2.10",
     "x-ray": "^2.3.2"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^3.5.3",
-    "rewire": "^2.5.2",
-    "sinon": "^2.4.1"
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "rewire": "^4.0.1",
+    "sinon": "^6.0.0"
   }
 }
