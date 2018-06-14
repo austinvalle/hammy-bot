@@ -1,6 +1,6 @@
 {
   "name": "hammy-bot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "bot for google hangouts",
   "main": "index.js",
   "scripts": {
@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "coffee-script": "^1.12.7",
     "mocha": "^5.2.0",
     "rewire": "^4.0.1",
     "sinon": "^6.0.0"
