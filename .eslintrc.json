@@ -4,8 +4,9 @@
         "node": true,
         "mocha": true
     },
+    "parser": "babel-eslint",
     "parserOptions": {
-        "ecmaVersion": 8
+        "ecmaVersion": 2017
     },
     "extends": "eslint:recommended",
     "rules": {
