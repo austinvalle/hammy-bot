@@ -4,8 +4,8 @@
   "description": "bot for google hangouts",
   "main": "index.js",
   "scripts": {
-    "start": "node lib/index.js",
-    "debug": "node --trace-warnings --inspect=5858 lib/index.js",
+    "start": "node src/index.js",
+    "debug": "node --trace-warnings --inspect=5858 src/index.js",
     "test": "mocha tests"
   },
   "repository": {

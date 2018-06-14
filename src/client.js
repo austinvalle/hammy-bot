@@ -7,6 +7,7 @@ var FileCookieStore = require('tough-cookie-filestore');
 var cookiesPath = require('path').join(__dirname, '../cookies.json');
 
 if(process.env.COOKIES_JSON){
+    console.log('ENV VARIABLE DETECTED!')
     fs.outputFileSync('cookies.json', process.env.COOKIES_JSON);
 }
 
