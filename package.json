@@ -27,6 +27,7 @@
   "homepage": "https://github.com/moosebot/hammy-bot#readme",
   "dependencies": {
     "async": "^2.6.1",
+    "coffee-script": "^1.12.7",
     "fluent-ffmpeg": "^2.1.2",
     "fs-extra": "^6.0.1",
     "giphy-api": "^1.2.7",
@@ -39,7 +40,6 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "coffee-script": "^1.12.7",
     "mocha": "^5.2.0",
     "rewire": "^4.0.1",
     "sinon": "^6.0.0"
