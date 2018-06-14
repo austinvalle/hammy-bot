@@ -1,46 +1,46 @@
-var Q = require('q');
-var rp = require('request-promise');
+const Q = require('q');
+const rp = require('request-promise');
 
-var MessageBuilder = require('../../client').MessageBuilder;
-var videos = require('../media/videos');
+const MessageBuilder = require('../../client').MessageBuilder;
+const videos = require('../media/videos');
 
 const STREAMABLE_JSON = 'https://api.streamable.com/videos/';
 
-var upload_streamable = function(streamableUrl) {
-    var deferred = Q.defer();
+const upload_streamable = (streamableUrl) => {
+	const deferred = Q.defer();
 
-    var streamableId = streamableUrl.split('/').pop()
+	const streamableId = streamableUrl.split('/').pop();
 
-    var options = {
-        uri: STREAMABLE_JSON + streamableId,
-        json: true
-    };
+	const options = {
+		uri: STREAMABLE_JSON + streamableId,
+		json: true
+	};
 
-    rp.get(options).then(function(data) {
-        var file = data.files["mp4"];
-        if (data.files["mp4-mobile"]) {
-            file = data.files["mp4-mobile"];
-        }
+	rp.get(options).then((data) => {
+		let file = data.files['mp4'];
+		if (data.files['mp4-mobile']) {
+			file = data.files['mp4-mobile'];
+		}
 
-        var videoUrl = 'https:' + file.url;
+		const videoUrl = 'https:' + file.url;
 
-        var builder = new MessageBuilder();
-        var segments;
-        if (data.title) {
-            segments = builder.bold(data.title).toSegments();
-        }
+		const builder = new MessageBuilder();
+		let segments;
+		if (data.title) {
+			segments = builder.bold(data.title).toSegments();
+		}
 
-        videos.upload_from_url(videoUrl).then(function(msg) {
-            deferred.resolve({
-                segments: segments,
-                pictureId: msg.pictureId
-            });
-        });
-    });
+		videos.upload_from_url(videoUrl).then((msg) => {
+			deferred.resolve({
+				segments: segments,
+				pictureId: msg.pictureId
+			});
+		});
+	});
 
-    return deferred.promise;
-}
+	return deferred.promise;
+};
 
 module.exports = {
-    upload_streamable: upload_streamable
+	upload_streamable: upload_streamable
 };

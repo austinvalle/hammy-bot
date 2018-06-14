@@ -24,8 +24,7 @@ Primarily used to monitor group-chats, provide added context to links (tweets, i
 * open cmd prompt and navigate to hammy-bot directory
 * run "npm start"
 * follow prompts on cmd prompt to enter authorization token
-  * There is currently an outstanding issue with hangupsjs, until there is a workaround/resolution, you won't be able to start hammy
-  * see [hangupsjs issue](https://github.com/yakyak/hangupsjs/issues/52) and [hangups issue](https://github.com/tdryer/hangups/issues/260)
+  * see this [workaround](https://github.com/tdryer/hangups/issues/260#issuecomment-246578670) to generate a token
 
 ## what hammy can do
 

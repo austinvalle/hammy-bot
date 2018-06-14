@@ -1,24 +1,23 @@
-var Q = require('q');
-var giphy = require('giphy-api')();
-var images = require('../media/images');
-var MessageBuilder = require('../../client').MessageBuilder;
+const Q = require('q');
+const giphy = require('giphy-api')();
+const images = require('../media/images');
 
-var random_giphy = function(command){
-    var deferred = Q.defer();
+const random_giphy = (command) => {
+	const deferred = Q.defer();
 
-    var query = command.replace('!gif ', '');
+	const query = command.replace('!gif ', '');
 
-    giphy.random({tag: query, rating: 'pg-13'}).then(function(res){
-        images.upload_from_url(res.data.image_url).then(function(msg){
-            deferred.resolve({
-                pictureId: msg.pictureId
-            });
-        });
-    });
+	giphy.random({tag: query, rating: 'pg-13'}).then((res) => {
+		images.upload_from_url(res.data.image_url).then((msg) => {
+			deferred.resolve({
+				pictureId: msg.pictureId
+			});
+		});
+	});
 
-    return deferred.promise;
+	return deferred.promise;
 };
 
 module.exports = {
-    random_giphy: random_giphy
+	random_giphy: random_giphy
 };

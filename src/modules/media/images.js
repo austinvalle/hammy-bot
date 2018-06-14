@@ -1,42 +1,42 @@
-var Q = require('q');
-var url = require('url');
-var path = require('path');
+const Q = require('q');
+const url = require('url');
+const path = require('path');
 
-var client = require("../../client");
-var cache = require("../cache/cache");
+const client = require('../../client');
+const cache = require('../cache/cache');
 
-var upload_from_url = function(pictureUrl) {
-    var deferred = Q.defer();
+const upload_from_url = (pictureUrl) => {
+	const deferred = Q.defer();
 
-    var extension = path.basename(url.parse(pictureUrl).pathname).split('.').pop();
-    var filename = Math.random().toString(36).substring(7) + "." + extension;
+	const extension = path.basename(url.parse(pictureUrl).pathname).split('.').pop();
+	const filename = Math.random().toString(36).substring(7) + '.' + extension;
 
-    cache.download(pictureUrl, filename).then(function(path) {
-        client.upload_image(path, filename).then(function(id) {
-            deferred.resolve({
-                pictureId: id
-            });
-            cache.delete(filename);
-        });
-    });
+	cache.download(pictureUrl, filename).then((path) => {
+		client.upload_image(path, filename).then((id) => {
+			deferred.resolve({
+				pictureId: id
+			});
+			cache.delete(filename);
+		});
+	});
 
-    return deferred.promise;
+	return deferred.promise;
 };
 
-var upload_from_path = function(path) {
-    var deferred = Q.defer();
+const upload_from_path = (path) => {
+	const deferred = Q.defer();
 
-    var filename = path.split('/').pop();
+	const filename = path.split('/').pop();
 
-    client.upload_image(path, filename).then(function(id) {
-        deferred.resolve(id);
-        cache.delete(filename);
-    });
+	client.upload_image(path, filename).then((id) => {
+		deferred.resolve(id);
+		cache.delete(filename);
+	});
 
-    return deferred.promise;
+	return deferred.promise;
 };
 
 module.exports = {
-    upload_from_url: upload_from_url,
-    upload_from_path: upload_from_path
+	upload_from_url: upload_from_url,
+	upload_from_path: upload_from_path
 };
