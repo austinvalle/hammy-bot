@@ -32,6 +32,8 @@
         "no-var": "error",
         "prefer-const": "error",
         "no-trailing-spaces": "error",
-        "arrow-spacing": "error"
+        "arrow-spacing": "error",
+        "keyword-spacing": "error",
+        "space-before-blocks": "error"
     }
 }

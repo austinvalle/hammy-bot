@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 const FileCookieStore = require('tough-cookie-filestore');
 const cookiesPath = require('path').join(__dirname, '../cookies.json');
 
-if(process.env.COOKIES_JSON) {
+if (process.env.COOKIES_JSON) {
 	console.log('ENV VARIABLE DETECTED!');
 	fs.outputFileSync('cookies.json', process.env.COOKIES_JSON);
 }
@@ -19,7 +19,7 @@ const chat = new events.EventEmitter();
 
 chat.setMaxListeners(50);
 
-const connect_to_hangouts = () => {
+const connect_to_hangouts = async () => {
 	const deferred = Q.defer();
 
 	client.loglevel('error');
@@ -30,25 +30,25 @@ const connect_to_hangouts = () => {
 		};
 	};
 
-	client.connect(credentials).then(() => {
-		client.on('chat_message', (ev) => {
-			if (ev.chat_message.message_content.segment &&
-                ev.self_event_state.user_id.gaia_id != ev.sender_id.gaia_id) {
-				client.updatewatermark(ev.conversation_id.id, new Date());
+	await client.connect(credentials);
 
-				const message = ev.chat_message.message_content.segment.reduce((a, b) => {
-					return {
-						text: a.text + b.text
-					};
-				});
+	client.on('chat_message', (ev) => {
+		if (ev.chat_message.message_content.segment &&
+			ev.self_event_state.user_id.gaia_id != ev.sender_id.gaia_id) {
+			client.updatewatermark(ev.conversation_id.id, new Date());
 
-				chat.emit('message', ev, message.text);
-			}
-		});
+			const message = ev.chat_message.message_content.segment.reduce((a, b) => {
+				return {
+					text: a.text + b.text
+				};
+			});
 
-		console.log('Client Initialized.');
-		deferred.resolve();
+			chat.emit('message', ev, message.text);
+		}
 	});
+
+	console.log('Client Initialized.');
+	deferred.resolve();
 
 	return deferred.promise;
 };
