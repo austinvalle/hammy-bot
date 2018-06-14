@@ -1,8 +1,12 @@
-var bootstrap = require('./bootstrap');
+const bootstrap = require('./bootstrap');
 
-bootstrap.initialize_client()
-    .then(bootstrap.register_events);
+const initializeApp = async () => {
+	await bootstrap.initialize_client();
+	bootstrap.register_events();
+};
 
-process.on('uncaughtException', function(err) {
-    console.log(err)
+process.on('uncaughtException', (err) => {
+	console.log(err);
 });
+
+initializeApp();
