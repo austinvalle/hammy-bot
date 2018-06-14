@@ -3,10 +3,10 @@ var expect = require('chai').expect;
 
 var Q = require('q');
 
-var cache = require('../lib/modules/cache/cache');
-var images = require('../lib/modules/media/images');
-var gif = require('../lib/modules/media/gif');
-var videos = require('../lib/modules/media/videos');
+var cache = require('../src/modules/cache/cache');
+var images = require('../src/modules/media/images');
+var gif = require('../src/modules/media/gif');
+var videos = require('../src/modules/media/videos');
 
 describe('videos module', function() {
     describe('upload from url', function() {

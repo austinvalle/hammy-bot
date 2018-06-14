@@ -3,9 +3,9 @@ var expect = require('chai').expect;
 
 var Q = require('q');
 var rp = require('request-promise');
-var videos = require('../lib/modules/media/videos');
+var videos = require('../src/modules/media/videos');
 
-var gfycat = require('../lib/modules/gfycat/gfycat');
+var gfycat = require('../src/modules/gfycat/gfycat');
 
 describe('gfycat module', function() {
     describe('upload gfycat', function() {

@@ -5,9 +5,9 @@ var should = chai.should();
 
 var Q = require('q');
 var rp = require('request-promise');
-var videos = require('../lib/modules/media/videos');
+var videos = require('../src/modules/media/videos');
 
-var streamable = require('../lib/modules/streamable/streamable');
+var streamable = require('../src/modules/streamable/streamable');
 
 describe('streamable module', function() {
     describe('upload streamable', function() {

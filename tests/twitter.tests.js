@@ -6,15 +6,15 @@ var expect = chai.expect;
 var should = chai.should();
 
 var Q = require('q');
-var images = require('../lib/modules/media/images');
-var videos = require('../lib/modules/media/videos');
+var images = require('../src/modules/media/images');
+var videos = require('../src/modules/media/videos');
 
 process.env.TWITTER_CONSUMER_KEY = "FAKECONSUMERKEY";
 process.env.TWITTER_CONSUMER_SECRET = "FAKECONSUMERSECRET";
 process.env.TWITTER_ACCESS_TOKEN = "FAKEACCESSTOKEN";
 process.env.TWITTER_ACCESS_TOKEN_SECRET = "FAKEACCESSSECRET";
 
-var twitter = rewire('../lib/modules/twitter/twitter');
+var twitter = rewire('../src/modules/twitter/twitter');
 
 describe('twitter module', function() {
     describe('upload twitter status', function() {

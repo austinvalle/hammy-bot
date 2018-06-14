@@ -5,9 +5,9 @@ var Q = require('q');
 var url = require('url');
 var path = require('path');
 
-var client = require('../lib/client');
-var cache = require('../lib/modules/cache/cache');
-var images = require('../lib/modules/media/images');
+var client = require('../src/client');
+var cache = require('../src/modules/cache/cache');
+var images = require('../src/modules/media/images');
 
 describe('images module', function() {
     describe('upload image from url', function() {

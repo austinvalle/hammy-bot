@@ -3,9 +3,9 @@ var expect = require('chai').expect;
 var rewire = require("rewire");
 
 var Q = require('q');
-var videos = require('../lib/modules/media/videos');
+var videos = require('../src/modules/media/videos');
 
-var xboxClips = rewire('../lib/modules/xbox/xbox-clips');
+var xboxClips = rewire('../src/modules/xbox/xbox-clips');
 
 describe('xbox-clips module', function() {
     describe('upload xboxdvr', function() {

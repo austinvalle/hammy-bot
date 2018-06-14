@@ -4,8 +4,8 @@ var rewire = require("rewire");
 
 var Q = require('q');
 
-var cache = require("../lib/modules/cache/cache");
-var gif = rewire('../lib/modules/media/gif');
+var cache = require("../src/modules/cache/cache");
+var gif = rewire('../src/modules/media/gif');
 
 describe('gif module', function() {
     describe('convert mp4 to gif', function() {

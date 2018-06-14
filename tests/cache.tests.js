@@ -5,7 +5,7 @@ var rewire = require("rewire");
 var fs = require('fs');
 var request = require('request');
 
-var cache = rewire('../lib/modules/cache/cache');
+var cache = rewire('../src/modules/cache/cache');
 
 describe('cache module', function() {
     describe('download from url', function() {

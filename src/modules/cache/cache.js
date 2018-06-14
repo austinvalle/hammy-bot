@@ -3,7 +3,7 @@ var fs = require('fs');
 var request = require('request');
 var ffmpeg = require('fluent-ffmpeg');
 
-const CACHE_PATH = 'lib/modules/cache/tmp/';
+const CACHE_PATH = 'src/modules/cache/tmp/';
 
 var download = function(uri, filename) {
     var deferred = Q.defer();
