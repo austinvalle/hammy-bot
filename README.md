@@ -31,27 +31,27 @@ Primarily used to monitor group-chats, provide added context to links (tweets, i
 
 * Post GIFs from gfycat
 
-![gfycat example](http://i.imgur.com/bNhzBDA.gif)
+![gfycat example](/examples/gyfcat.gif)
 
 * Post direct url images/videos for JPG,PNG,JPEG,GIF,MP4 links
 
-![direct url example](http://i.imgur.com/iv878LP.png)
+![direct url example](/examples/direct_urls.gif)
 
 * Post GIFs from streamable urls
 
-![direct url example](http://i.imgur.com/zUxQSJI.gif)
+![streamable example](/examples/streamable.gif)
 
 * Post twitter status, images, and gifs
 
-![twitter example](http://i.imgur.com/l4MtEPK.png)
+![twitter example](/examples/twitter.png)
 
 * Post GIFs from xboxdvr urls
 
-![xbox dvr example](http://i.imgur.com/LBpKKg8.gif)
+![xbox dvr example](/examples/xboxdvr.gif)
 
 * Post random GIFs provided by Giphy
 
-![random giphy example](http://i.imgur.com/R2jWfYi.gif)
+![random giphy example](/examples/random_gifs.gif)
 
 
 ## APIs currently in use
