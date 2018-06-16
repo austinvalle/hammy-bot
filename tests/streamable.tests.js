@@ -36,7 +36,7 @@ describe('streamable module', () => {
 			videos.upload_from_url.restore();
 		});
 
-		it('should upload, has mp4 mobile and no title', (done) => {
+		it('should upload, has mp4 mobile and no title', async () => {
 			rpDeferred.resolve({
 				files: {
 					'mp4': {},
@@ -46,23 +46,16 @@ describe('streamable module', () => {
 				}
 			});
 
-			streamable.upload_streamable('http://streamable.com/asdk').then((msg) => {
-				try {
-					should.not.exist(msg.segments);
-					expect(msg.pictureId).to.equal(1234);
-					sinon.assert.calledOnce(rp.get);
-					sinon.assert.calledOnce(videos.upload_from_url);
-					sinon.assert.calledWith(videos.upload_from_url,
-						'https://streamable.com/asdk-mobile.mp4');
+			const msg = await streamable.upload_streamable('http://streamable.com/asdk');
 
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			should.not.exist(msg.segments);
+			expect(msg.pictureId).to.equal(1234);
+			sinon.assert.calledOnce(rp.get);
+			sinon.assert.calledOnce(videos.upload_from_url);
+			sinon.assert.calledWith(videos.upload_from_url, 'https://streamable.com/asdk-mobile.mp4');
 		});
 
-		it('should upload, no mp4 mobile and has title', (done) => {
+		it('should upload, no mp4 mobile and has title', async () => {
 			rpDeferred.resolve({
 				title: 'Fake title',
 				files: {
@@ -72,20 +65,13 @@ describe('streamable module', () => {
 				}
 			});
 
-			streamable.upload_streamable('http://streamable.com/asdk').then((msg) => {
-				try {
-					expect(msg.segments[0][1]).to.equal('Fake title');
-					expect(msg.pictureId).to.equal(1234);
-					sinon.assert.calledOnce(rp.get);
-					sinon.assert.calledOnce(videos.upload_from_url);
-					sinon.assert.calledWith(videos.upload_from_url,
-						'https://streamable.com/asdk.mp4');
+			const msg = await streamable.upload_streamable('http://streamable.com/asdk');
 
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			expect(msg.segments[0][1]).to.equal('Fake title');
+			expect(msg.pictureId).to.equal(1234);
+			sinon.assert.calledOnce(rp.get);
+			sinon.assert.calledOnce(videos.upload_from_url);
+			sinon.assert.calledWith(videos.upload_from_url, 'https://streamable.com/asdk.mp4');
 		});
 	});
 });

@@ -57,50 +57,44 @@ describe('gif module', () => {
 			cache.delete.restore();
 		});
 
-		it('creates palette, then converts mp4 to gif', (done) => {
+		it('creates palette, then converts mp4 to gif', async () => {
 			const filename = 'file',
 				path = '/fake/path/file.gif',
 				start = 5,
 				duration = 15;
 
-			gif.convert_mp4(path, filename, start, duration).then((path) => {
-				try {
-					const paletteName = cache.PATH + filename + '.png',
-						gifName = cache.PATH + filename + '.gif';
+			const imagePath = await gif.convert_mp4(path, filename, start, duration);
 
-					expect(path).to.equal(cache.PATH + filename + '.gif');
+			const paletteName = cache.PATH + filename + '.png',
+				gifName = cache.PATH + filename + '.gif';
 
-					sinon.assert.calledTwice(ffmpegStub.seekInput);
-					sinon.assert.alwaysCalledWith(ffmpegStub.seekInput, start);
+			expect(imagePath).to.equal(cache.PATH + filename + '.gif');
 
-					sinon.assert.calledTwice(ffmpegStub.inputOptions);
-					sinon.assert.alwaysCalledWith(ffmpegStub.inputOptions, '-t ' + duration);
+			sinon.assert.calledTwice(ffmpegStub.seekInput);
+			sinon.assert.alwaysCalledWith(ffmpegStub.seekInput, start);
 
-					sinon.assert.calledOnce(ffmpegStub.videoFilter);
-					sinon.assert.calledWith(ffmpegStub.videoFilter, sinon.match.any);
+			sinon.assert.calledTwice(ffmpegStub.inputOptions);
+			sinon.assert.alwaysCalledWith(ffmpegStub.inputOptions, '-t ' + duration);
 
-					sinon.assert.calledTwice(ffmpegStub.save);
-					sinon.assert.calledWith(ffmpegStub.save, paletteName);
-					sinon.assert.calledWith(ffmpegStub.save, gifName);
+			sinon.assert.calledOnce(ffmpegStub.videoFilter);
+			sinon.assert.calledWith(ffmpegStub.videoFilter, sinon.match.any);
 
-					sinon.assert.calledTwice(ffmpegStub.on);
-					sinon.assert.alwaysCalledWith(ffmpegStub.on, 'end', sinon.match.any);
+			sinon.assert.calledTwice(ffmpegStub.save);
+			sinon.assert.calledWith(ffmpegStub.save, paletteName);
+			sinon.assert.calledWith(ffmpegStub.save, gifName);
 
-					sinon.assert.calledOnce(ffmpegStub.input);
-					sinon.assert.calledWith(ffmpegStub.input, paletteName);
+			sinon.assert.calledTwice(ffmpegStub.on);
+			sinon.assert.alwaysCalledWith(ffmpegStub.on, 'end', sinon.match.any);
 
-					sinon.assert.calledOnce(ffmpegStub.complexFilter);
-					sinon.assert.calledWith(ffmpegStub.complexFilter, sinon.match.any);
+			sinon.assert.calledOnce(ffmpegStub.input);
+			sinon.assert.calledWith(ffmpegStub.input, paletteName);
 
-					sinon.assert.calledTwice(cache.delete);
-					sinon.assert.calledWith(cache.delete, filename + '.mp4');
-					sinon.assert.calledWith(cache.delete, filename + '.png');
+			sinon.assert.calledOnce(ffmpegStub.complexFilter);
+			sinon.assert.calledWith(ffmpegStub.complexFilter, sinon.match.any);
 
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			sinon.assert.calledTwice(cache.delete);
+			sinon.assert.calledWith(cache.delete, filename + '.mp4');
+			sinon.assert.calledWith(cache.delete, filename + '.png');
 		});
 	});
 });

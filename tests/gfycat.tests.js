@@ -39,18 +39,13 @@ describe('gfycat module', () => {
 			videos.upload_from_url.restore();
 		});
 
-		it('should call gfycat api for details, then upload to videos', (done) => {
-			gfycat.upload_gfycat('fakename').then((msg) => {
-				try {
-					expect(msg.pictureId).to.equal(1234);
-					sinon.assert.calledOnce(rp.get);
-					sinon.assert.calledOnce(videos.upload_from_url);
-					sinon.assert.calledWith(videos.upload_from_url, 'http://gfycat.com/fakename.mp4');
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+		it('should call gfycat api for details, then upload to videos', async () => {
+			const msg = await gfycat.upload_gfycat('fakename');
+
+			expect(msg.pictureId).to.equal(1234);
+			sinon.assert.calledOnce(rp.get);
+			sinon.assert.calledOnce(videos.upload_from_url);
+			sinon.assert.calledWith(videos.upload_from_url, 'http://gfycat.com/fakename.mp4');
 		});
 	});
 });

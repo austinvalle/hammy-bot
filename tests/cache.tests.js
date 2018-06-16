@@ -60,62 +60,52 @@ describe('cache module', () => {
 			requestStub.on.restore();
 		});
 
-		it('should download file', (done) => {
+		it('should download file', async () => {
 			const downloadUri = 'http://fakeurl/fakeimage.png';
 			const filename = 'fakename.png';
 
-			cache.download(downloadUri, filename).then((path) => {
-				try {
-					expect(path).to.equal(cache.PATH + filename);
-					sinon.assert.calledOnce(request.head);
-					sinon.assert.calledWith(request.head, downloadUri, sinon.match.any);
+			const path = await cache.download(downloadUri, filename);
 
-					sinon.assert.calledOnce(request.get);
-					sinon.assert.calledWith(request.get, downloadUri);
+			expect(path).to.equal(cache.PATH + filename);
+			sinon.assert.calledOnce(request.head);
+			sinon.assert.calledWith(request.head, downloadUri, sinon.match.any);
 
-					sinon.assert.calledOnce(requestStub.pipe);
+			sinon.assert.calledOnce(request.get);
+			sinon.assert.calledWith(request.get, downloadUri);
 
-					sinon.assert.calledOnce(fs.createWriteStream);
-					sinon.assert.calledWith(fs.createWriteStream, cache.PATH + filename);
+			sinon.assert.calledOnce(requestStub.pipe);
 
-					sinon.assert.calledOnce(requestStub.on);
-					sinon.assert.calledWith(requestStub.on, 'close', sinon.match.any);
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			sinon.assert.calledOnce(fs.createWriteStream);
+			sinon.assert.calledWith(fs.createWriteStream, cache.PATH + filename);
+
+			sinon.assert.calledOnce(requestStub.on);
+			sinon.assert.calledWith(requestStub.on, 'close', sinon.match.any);
 		});
 
-		it('should download file, then get metadata for video', (done) => {
+		it('should download file, then get metadata for video', async () => {
 			const downloadUri = 'http://fakeurl/fakevideo.mp4';
 			const filename = 'fakename.mp4';
 
-			cache.download(downloadUri, filename).then((response) => {
-				try {
-					expect(response.path).to.equal(cache.PATH + filename);
-					expect(response.metadata.duration).to.equal(44);
+			const response = await cache.download(downloadUri, filename);
 
-					sinon.assert.calledOnce(request.head);
-					sinon.assert.calledWith(request.head, downloadUri, sinon.match.any);
+			expect(response.path).to.equal(cache.PATH + filename);
+			expect(response.metadata.duration).to.equal(44);
 
-					sinon.assert.calledOnce(request.get);
-					sinon.assert.calledWith(request.get, downloadUri);
+			sinon.assert.calledOnce(request.head);
+			sinon.assert.calledWith(request.head, downloadUri, sinon.match.any);
 
-					sinon.assert.calledOnce(requestStub.pipe);
+			sinon.assert.calledOnce(request.get);
+			sinon.assert.calledWith(request.get, downloadUri);
 
-					sinon.assert.calledOnce(fs.createWriteStream);
-					sinon.assert.calledWith(fs.createWriteStream, cache.PATH + filename);
+			sinon.assert.calledOnce(requestStub.pipe);
 
-					sinon.assert.calledOnce(requestStub.on);
-					sinon.assert.calledWith(requestStub.on, 'close', sinon.match.any);
+			sinon.assert.calledOnce(fs.createWriteStream);
+			sinon.assert.calledWith(fs.createWriteStream, cache.PATH + filename);
 
-					sinon.assert.calledOnce(ffmpegStub.ffprobe);
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			sinon.assert.calledOnce(requestStub.on);
+			sinon.assert.calledWith(requestStub.on, 'close', sinon.match.any);
+
+			sinon.assert.calledOnce(ffmpegStub.ffprobe);
 		});
 	});
 
@@ -128,15 +118,11 @@ describe('cache module', () => {
 			fs.unlink.restore();
 		});
 
-		it('should call delete on file path', (done) => {
+		it('should call delete on file path', () => {
 			cache.delete('fakename');
-			try {
-				sinon.assert.calledOnce(fs.unlink);
-				sinon.assert.calledWith(fs.unlink, cache.PATH + 'fakename');
-				done();
-			} catch (err) {
-				done(err);
-			}
+
+			sinon.assert.calledOnce(fs.unlink);
+			sinon.assert.calledWith(fs.unlink, cache.PATH + 'fakename');
 		});
 	});
 });
