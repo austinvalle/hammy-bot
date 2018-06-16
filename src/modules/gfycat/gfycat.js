@@ -1,31 +1,22 @@
-const Q = require('q');
 const rp = require('request-promise');
 
 const videos = require('../media/videos');
 
 const GFYCAT_JSON = 'https://gfycat.com/cajax/get/';
 
-const upload_gfycat = (gfycatUrl) => {
-	const deferred = Q.defer();
-
+const upload_gfycat = async (gfycatUrl) => {
 	const gfycatId = gfycatUrl.split('/').pop();
 
 	const options = {
 		uri: GFYCAT_JSON + gfycatId,
 		json: true
 	};
-	rp.get(options).then((data) => {
-		const videoUrl = data.gfyItem.mobileUrl;
+	const data = await rp.get(options);
 
-		videos.upload_from_url(videoUrl)
-			.then((msg) => {
-				deferred.resolve({
-					pictureId: msg.pictureId
-				});
-			});
-	});
+	const videoUrl = data.gfyItem.mobileUrl;
+	const msg = await videos.upload_from_url(videoUrl);
 
-	return deferred.promise;
+	return { pictureId: msg.pictureId };
 };
 
 module.exports = {
