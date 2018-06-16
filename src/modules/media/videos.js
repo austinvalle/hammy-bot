@@ -1,4 +1,3 @@
-const Q = require('q');
 const url = require('url');
 const path = require('path');
 
@@ -6,26 +5,18 @@ const images = require('./images');
 const cache = require('../cache/cache');
 const gif = require('./gif');
 
-const upload_from_url = (videoUrl, start) => {
-	const deferred = Q.defer();
-
+const upload_from_url = async (videoUrl, start) => {
 	const filename = path.basename(url.parse(videoUrl).pathname);
 	const uniqueId = filename.split('.')[0];
 
-	cache.download(videoUrl, filename).then((response) => {
-		const videoParams = determineVideoParameters(start, response.metadata.duration);
+	const response = await cache.download(videoUrl, filename);
 
-		gif.convert_mp4(response.path, uniqueId, videoParams.start, videoParams.duration).then((gifPath) => {
-			images.upload_from_path(gifPath, uniqueId + '.gif')
-				.then((id) => {
-					deferred.resolve({
-						pictureId: id
-					});
-				});
-		});
-	});
+	const videoParams = determineVideoParameters(start, response.metadata.duration);
 
-	return deferred.promise;
+	const gifPath = await gif.convert_mp4(response.path, uniqueId, videoParams.start, videoParams.duration);
+	const id = await images.upload_from_path(gifPath, uniqueId + '.gif');
+
+	return { pictureId: id };
 };
 
 const determineVideoParameters = (start, videoLength) => {

@@ -1,39 +1,29 @@
-const Q = require('q');
 const url = require('url');
 const path = require('path');
 
 const client = require('../../client');
 const cache = require('../cache/cache');
 
-const upload_from_url = (pictureUrl) => {
-	const deferred = Q.defer();
-
+const upload_from_url = async (pictureUrl) => {
 	const extension = path.basename(url.parse(pictureUrl).pathname).split('.').pop();
 	const filename = Math.random().toString(36).substring(7) + '.' + extension;
 
-	cache.download(pictureUrl, filename).then((path) => {
-		client.upload_image(path, filename).then((id) => {
-			deferred.resolve({
-				pictureId: id
-			});
-			cache.delete(filename);
-		});
-	});
+	const imagePath = await cache.download(pictureUrl, filename);
+	const id = await client.upload_image(imagePath, filename);
 
-	return deferred.promise;
+	cache.delete(filename);
+
+	return { pictureId: id };
 };
 
-const upload_from_path = (path) => {
-	const deferred = Q.defer();
-
+const upload_from_path = async (path) => {
 	const filename = path.split('/').pop();
 
-	client.upload_image(path, filename).then((id) => {
-		deferred.resolve(id);
-		cache.delete(filename);
-	});
+	const id = await client.upload_image(path, filename);
 
-	return deferred.promise;
+	cache.delete(filename);
+
+	return id;
 };
 
 module.exports = {

@@ -1,4 +1,3 @@
-const Q = require('q');
 const rp = require('request-promise');
 
 const MessageBuilder = require('../../client').MessageBuilder;
@@ -6,9 +5,7 @@ const videos = require('../media/videos');
 
 const STREAMABLE_JSON = 'https://api.streamable.com/videos/';
 
-const upload_streamable = (streamableUrl) => {
-	const deferred = Q.defer();
-
+const upload_streamable = async (streamableUrl) => {
 	const streamableId = streamableUrl.split('/').pop();
 
 	const options = {
@@ -16,29 +13,24 @@ const upload_streamable = (streamableUrl) => {
 		json: true
 	};
 
-	rp.get(options).then((data) => {
-		let file = data.files['mp4'];
-		if (data.files['mp4-mobile']) {
-			file = data.files['mp4-mobile'];
-		}
+	const data = await rp.get(options);
 
-		const videoUrl = 'https:' + file.url;
+	let file = data.files['mp4'];
+	if (data.files['mp4-mobile']) {
+		file = data.files['mp4-mobile'];
+	}
 
-		const builder = new MessageBuilder();
-		let segments;
-		if (data.title) {
-			segments = builder.bold(data.title).toSegments();
-		}
+	const videoUrl = 'https:' + file.url;
 
-		videos.upload_from_url(videoUrl).then((msg) => {
-			deferred.resolve({
-				segments: segments,
-				pictureId: msg.pictureId
-			});
-		});
-	});
+	const builder = new MessageBuilder();
+	let segments;
+	if (data.title) {
+		segments = builder.bold(data.title).toSegments();
+	}
 
-	return deferred.promise;
+	const msg = await videos.upload_from_url(videoUrl);
+
+	return { segments: segments, pictureId: msg.pictureId };
 };
 
 module.exports = {
