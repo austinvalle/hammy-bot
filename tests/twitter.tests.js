@@ -57,7 +57,7 @@ describe('twitter module', () => {
 			videos.upload_from_url.restore();
 		});
 
-		it('if no additional media: return tweet text', (done) => {
+		it('if no additional media: return tweet text', async () => {
 			const statusId = '12345678',
 				twitterUrl = ' https://twitter.com/FakeProfile/status/' + statusId,
 				twitterData = {
@@ -70,22 +70,16 @@ describe('twitter module', () => {
 				};
 			twitterClientStub.resolves(twitterData);
 
-			twitter.upload_twitter_status(twitterUrl).then((msg) => {
-				try {
-					should.not.exist(msg.pictureId);
-					expect(msg.segments[0][1]).to.equal('"' + twitterData.data.text + '"');
-					expect(msg.segments[2][1]).to.equal('@' + twitterData.data.user.screen_name);
-					sinon.assert.notCalled(images.upload_from_url);
-					sinon.assert.notCalled(videos.upload_from_url);
+			const msg = await twitter.upload_twitter_status(twitterUrl);
 
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			should.not.exist(msg.pictureId);
+			expect(msg.segments[0][1]).to.equal('"' + twitterData.data.text + '"');
+			expect(msg.segments[2][1]).to.equal('@' + twitterData.data.user.screen_name);
+			sinon.assert.notCalled(images.upload_from_url);
+			sinon.assert.notCalled(videos.upload_from_url);
 		});
 
-		it('if photo attached: return tweet text and uploaded photo id', (done) => {
+		it('if photo attached: return tweet text and uploaded photo id', async () => {
 			const statusId = '12345678',
 				twitterUrl = ' https://twitter.com/FakeProfile/status/' + statusId,
 				twitterData = {
@@ -104,26 +98,20 @@ describe('twitter module', () => {
 				};
 			twitterClientStub.resolves(twitterData);
 
-			twitter.upload_twitter_status(twitterUrl).then((msg) => {
-				try {
-					expect(msg.pictureId).to.equal(1234);
-					expect(msg.segments[0][1]).to.equal('"' + twitterData.data.text + '"');
-					expect(msg.segments[2][1]).to.equal('@' + twitterData.data.user.screen_name);
+			const msg = await twitter.upload_twitter_status(twitterUrl);
 
-					sinon.assert.calledOnce(images.upload_from_url);
-					sinon.assert.calledWith(images.upload_from_url,
-						twitterData.data.extended_entities.media[0].media_url);
+			expect(msg.pictureId).to.equal(1234);
+			expect(msg.segments[0][1]).to.equal('"' + twitterData.data.text + '"');
+			expect(msg.segments[2][1]).to.equal('@' + twitterData.data.user.screen_name);
 
-					sinon.assert.notCalled(videos.upload_from_url);
+			sinon.assert.calledOnce(images.upload_from_url);
+			sinon.assert.calledWith(images.upload_from_url,
+				twitterData.data.extended_entities.media[0].media_url);
 
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			sinon.assert.notCalled(videos.upload_from_url);
 		});
 
-		it('if animated gif attached: return tweet text and uploaded gif id', (done) => {
+		it('if animated gif attached: return tweet text and uploaded gif id', async () => {
 			const statusId = '12345678',
 				twitterUrl = ' https://twitter.com/FakeProfile/status/' + statusId,
 				twitterData = {
@@ -146,26 +134,20 @@ describe('twitter module', () => {
 				};
 			twitterClientStub.resolves(twitterData);
 
-			twitter.upload_twitter_status(twitterUrl).then((msg) => {
-				try {
-					expect(msg.pictureId).to.equal(12345678);
-					expect(msg.segments[0][1]).to.equal('"' + twitterData.data.text + '"');
-					expect(msg.segments[2][1]).to.equal('@' + twitterData.data.user.screen_name);
+			const msg = await twitter.upload_twitter_status(twitterUrl);
 
-					sinon.assert.notCalled(images.upload_from_url);
+			expect(msg.pictureId).to.equal(12345678);
+			expect(msg.segments[0][1]).to.equal('"' + twitterData.data.text + '"');
+			expect(msg.segments[2][1]).to.equal('@' + twitterData.data.user.screen_name);
 
-					sinon.assert.calledOnce(videos.upload_from_url);
-					sinon.assert.calledWith(videos.upload_from_url,
-						twitterData.data.extended_entities.media[0].video_info.variants[0].url);
+			sinon.assert.notCalled(images.upload_from_url);
 
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			sinon.assert.calledOnce(videos.upload_from_url);
+			sinon.assert.calledWith(videos.upload_from_url,
+				twitterData.data.extended_entities.media[0].video_info.variants[0].url);
 		});
 
-		it('if native video attached: return tweet text and uploaded gif id', (done) => {
+		it('if native video attached: return tweet text and uploaded gif id', async () => {
 			const statusId = '12345678',
 				twitterUrl = ' https://twitter.com/FakeProfile/status/' + statusId,
 				twitterData = {
@@ -194,23 +176,17 @@ describe('twitter module', () => {
 				};
 			twitterClientStub.resolves(twitterData);
 
-			twitter.upload_twitter_status(twitterUrl).then((msg) => {
-				try {
-					expect(msg.pictureId).to.equal(12345678);
-					expect(msg.segments[0][1]).to.equal('"' + twitterData.data.text + '"');
-					expect(msg.segments[2][1]).to.equal('@' + twitterData.data.user.screen_name);
+			const msg = await twitter.upload_twitter_status(twitterUrl);
 
-					sinon.assert.notCalled(images.upload_from_url);
+			expect(msg.pictureId).to.equal(12345678);
+			expect(msg.segments[0][1]).to.equal('"' + twitterData.data.text + '"');
+			expect(msg.segments[2][1]).to.equal('@' + twitterData.data.user.screen_name);
 
-					sinon.assert.calledOnce(videos.upload_from_url);
-					sinon.assert.calledWith(videos.upload_from_url,
-						twitterData.data.extended_entities.media[0].video_info.variants[1].url);
+			sinon.assert.notCalled(images.upload_from_url);
 
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			sinon.assert.calledOnce(videos.upload_from_url);
+			sinon.assert.calledWith(videos.upload_from_url,
+				twitterData.data.extended_entities.media[0].video_info.variants[1].url);
 		});
 	});
 });
