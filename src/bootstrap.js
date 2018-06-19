@@ -1,5 +1,3 @@
-const PrettyError = require('pretty-error');
-
 const client = require('./client');
 const message_events = require('./modules/active').message_events;
 
@@ -26,10 +24,7 @@ const register_events = () => {
 						await client.send_message(ev.conversation_id.id, msg.segments, msg.pictureId);
 					}
 				} catch (error) {
-					const pe = new PrettyError();
-					const renderedError = pe.render(error);
-
-					console.log(renderedError);
+					console.log(error);
 				}
 				client.stop_typing(ev);
 			}
