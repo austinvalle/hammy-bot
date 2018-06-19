@@ -41,7 +41,7 @@ describe('videos module', () => {
 			images.upload_from_path.restore();
 		});
 
-		it('w/ start param: should download, convert, and upload gif', (done) => {
+		it('w/ start param: should download, convert, and upload gif', async () => {
 			const videoUrl = 'http://fakeurl/fakevideo.mp4';
 			const start = 25;
 
@@ -52,25 +52,20 @@ describe('videos module', () => {
 				}
 			});
 
-			videos.upload_from_url(videoUrl, start).then((msg) => {
-				try {
-					expect(msg.pictureId).to.equal(1234);
-					sinon.assert.calledOnce(cache.download);
-					sinon.assert.calledWith(cache.download, videoUrl, 'fakevideo.mp4');
+			const msg = await videos.upload_from_url(videoUrl, start);
 
-					sinon.assert.calledOnce(gif.convert_mp4);
-					sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', start, 30);
+			expect(msg.pictureId).to.equal(1234);
+			sinon.assert.calledOnce(cache.download);
+			sinon.assert.calledWith(cache.download, videoUrl, 'fakevideo.mp4');
 
-					sinon.assert.calledOnce(images.upload_from_path);
-					sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif');
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			sinon.assert.calledOnce(gif.convert_mp4);
+			sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', start, 30);
+
+			sinon.assert.calledOnce(images.upload_from_path);
+			sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif');
 		});
 
-		it('duration <= 10: should download, convert, and upload gif', (done) => {
+		it('duration <= 10: should download, convert, and upload gif', async () => {
 			const videoUrl = 'http://fakeurl/fakevideo.mp4';
 
 			cacheDeferred.resolve({
@@ -80,25 +75,20 @@ describe('videos module', () => {
 				}
 			});
 
-			videos.upload_from_url(videoUrl).then((msg) => {
-				try {
-					expect(msg.pictureId).to.equal(1234);
-					sinon.assert.calledOnce(cache.download);
-					sinon.assert.calledWith(cache.download, videoUrl, 'fakevideo.mp4');
+			const msg = await videos.upload_from_url(videoUrl);
 
-					sinon.assert.calledOnce(gif.convert_mp4);
-					sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', 0, 9);
+			expect(msg.pictureId).to.equal(1234);
+			sinon.assert.calledOnce(cache.download);
+			sinon.assert.calledWith(cache.download, videoUrl, 'fakevideo.mp4');
 
-					sinon.assert.calledOnce(images.upload_from_path);
-					sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif');
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			sinon.assert.calledOnce(gif.convert_mp4);
+			sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', 0, 9);
+
+			sinon.assert.calledOnce(images.upload_from_path);
+			sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif');
 		});
 
-		it('duration <= 15: should download, convert, and upload gif', (done) => {
+		it('duration <= 15: should download, convert, and upload gif', async () => {
 			const videoUrl = 'http://fakeurl/fakevideo.mp4';
 
 			cacheDeferred.resolve({
@@ -108,25 +98,20 @@ describe('videos module', () => {
 				}
 			});
 
-			videos.upload_from_url(videoUrl).then((msg) => {
-				try {
-					expect(msg.pictureId).to.equal(1234);
-					sinon.assert.calledOnce(cache.download);
-					sinon.assert.calledWith(cache.download, videoUrl, 'fakevideo.mp4');
+			const msg = await videos.upload_from_url(videoUrl);
 
-					sinon.assert.calledOnce(gif.convert_mp4);
-					sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', 3, 10);
+			expect(msg.pictureId).to.equal(1234);
+			sinon.assert.calledOnce(cache.download);
+			sinon.assert.calledWith(cache.download, videoUrl, 'fakevideo.mp4');
 
-					sinon.assert.calledOnce(images.upload_from_path);
-					sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif');
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			sinon.assert.calledOnce(gif.convert_mp4);
+			sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', 3, 10);
+
+			sinon.assert.calledOnce(images.upload_from_path);
+			sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif');
 		});
 
-		it('duration > 15: should download, convert, and upload gif', (done) => {
+		it('duration > 15: should download, convert, and upload gif', async () => {
 			const videoUrl = 'http://fakeurl/fakevideo.mp4';
 
 			cacheDeferred.resolve({
@@ -136,22 +121,17 @@ describe('videos module', () => {
 				}
 			});
 
-			videos.upload_from_url(videoUrl).then((msg) => {
-				try {
-					expect(msg.pictureId).to.equal(1234);
-					sinon.assert.calledOnce(cache.download);
-					sinon.assert.calledWith(cache.download, videoUrl, 'fakevideo.mp4');
+			const msg = await videos.upload_from_url(videoUrl);
 
-					sinon.assert.calledOnce(gif.convert_mp4);
-					sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', 5, 10);
+			expect(msg.pictureId).to.equal(1234);
+			sinon.assert.calledOnce(cache.download);
+			sinon.assert.calledWith(cache.download, videoUrl, 'fakevideo.mp4');
 
-					sinon.assert.calledOnce(images.upload_from_path);
-					sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif');
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			sinon.assert.calledOnce(gif.convert_mp4);
+			sinon.assert.calledWith(gif.convert_mp4, fakePath, 'fakevideo', 5, 10);
+
+			sinon.assert.calledOnce(images.upload_from_path);
+			sinon.assert.calledWith(images.upload_from_path, fakePath + '.gif');
 		});
 	});
 });

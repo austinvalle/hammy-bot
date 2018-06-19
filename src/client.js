@@ -1,5 +1,4 @@
 const HangoutClient = require('hangupsjs');
-const Q = require('q');
 const events = require('events');
 
 const fs = require('fs-extra');
@@ -20,8 +19,6 @@ const chat = new events.EventEmitter();
 chat.setMaxListeners(50);
 
 const connect_to_hangouts = async () => {
-	const deferred = Q.defer();
-
 	client.loglevel('error');
 
 	const credentials = () => {
@@ -48,9 +45,6 @@ const connect_to_hangouts = async () => {
 	});
 
 	console.log('Client Initialized.');
-	deferred.resolve();
-
-	return deferred.promise;
 };
 
 const send_message = (client_id, segments, photo_id) => {

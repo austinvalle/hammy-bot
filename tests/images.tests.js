@@ -38,25 +38,20 @@ describe('images module', () => {
 			cache.delete.restore();
 		});
 
-		it('w/o filename: should download to cache, upload to client, then delete', (done) => {
+		it('w/o filename: should download to cache, upload to client, then delete', async () => {
 			const pictureUrl = 'http://fakeurl/fakeimage123.jpg';
 
-			images.upload_from_url(pictureUrl).then((msg) => {
-				try {
-					expect(msg.pictureId).to.equal(1234);
-					sinon.assert.calledOnce(cache.download);
-					sinon.assert.calledWith(cache.download, pictureUrl, sinon.match.any);
+			const msg = await images.upload_from_url(pictureUrl);
 
-					sinon.assert.calledOnce(client.upload_image);
-					sinon.assert.calledWith(client.upload_image, fakePath, sinon.match.any);
+			expect(msg.pictureId).to.equal(1234);
+			sinon.assert.calledOnce(cache.download);
+			sinon.assert.calledWith(cache.download, pictureUrl, sinon.match.any);
 
-					sinon.assert.calledOnce(cache.delete);
-					sinon.assert.calledWith(cache.delete, sinon.match.any);
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			sinon.assert.calledOnce(client.upload_image);
+			sinon.assert.calledWith(client.upload_image, fakePath, sinon.match.any);
+
+			sinon.assert.calledOnce(cache.delete);
+			sinon.assert.calledWith(cache.delete, sinon.match.any);
 		});
 	});
 
@@ -80,22 +75,17 @@ describe('images module', () => {
 			cache.delete.restore();
 		});
 
-		it('should upload to client, then delete', (done) => {
+		it('should upload to client, then delete', async () => {
 			const fakePath = 'fake/path/to/fakeimg.gif';
 
-			images.upload_from_path(fakePath).then((id) => {
-				try {
-					expect(id).to.equal(1234);
-					sinon.assert.calledOnce(client.upload_image);
-					sinon.assert.calledWith(client.upload_image, fakePath, 'fakeimg.gif');
+			const id = await images.upload_from_path(fakePath);
 
-					sinon.assert.calledOnce(cache.delete);
-					sinon.assert.calledWith(cache.delete, 'fakeimg.gif');
-					done();
-				} catch (err) {
-					done(err);
-				}
-			});
+			expect(id).to.equal(1234);
+			sinon.assert.calledOnce(client.upload_image);
+			sinon.assert.calledWith(client.upload_image, fakePath, 'fakeimg.gif');
+
+			sinon.assert.calledOnce(cache.delete);
+			sinon.assert.calledWith(cache.delete, 'fakeimg.gif');
 		});
 	});
 });
