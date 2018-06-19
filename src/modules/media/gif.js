@@ -1,6 +1,8 @@
 const Q = require('q');
+const giphy = require('giphy-api')();
 const ffmpeg = require('fluent-ffmpeg');
 
+const images = require('./images');
 const cache = require('../cache/cache');
 
 const convert_mp4 = (path, filename, start, duration) => {
@@ -31,6 +33,16 @@ const convert_mp4 = (path, filename, start, duration) => {
 	return deferred.promise;
 };
 
+const random_gif = async (command) => {
+	const query = command.replace('!gif ', '');
+
+	const res = await giphy.random({tag: query, rating: 'pg-13'});
+	const msg = await images.upload_from_url(res.data.image_url);
+
+	return { pictureId: msg.pictureId };
+};
+
 module.exports = {
-	convert_mp4: convert_mp4
+	convert_mp4: convert_mp4,
+	random_gif: random_gif
 };

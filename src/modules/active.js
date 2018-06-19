@@ -1,6 +1,6 @@
 const gfycat = require('./gfycat/gfycat');
-const giphy = require('./giphy/giphy');
 const images = require('./media/images');
+const gif = require('./media/gif');
 const videos = require('./media/videos');
 const streamable = require('./streamable/streamable');
 const twitter = require('./twitter/twitter');
@@ -12,7 +12,7 @@ const message_events = [{
 	allow_multiple: true
 }, {
 	regex: /^!gif (.*)$/g,
-	callback: giphy.random_giphy,
+	callback: gif.random_gif,
 	allow_multiple: false
 }, {
 	regex: /(https?:[/|.|\w|-]*\.(?:jpg|jpeg|gif|png))/g,
