@@ -1,6 +1,5 @@
 const Twit = require('twit');
 const url = require('url');
-const Q = require('q');
 
 const MessageBuilder = require('../../client').MessageBuilder;
 const images = require('../media/images');
@@ -15,39 +14,33 @@ const twitter_client = new Twit({
 
 const statusIdRegex = /\/status(es)?\/(\d+)/;
 
-const upload_twitter_status = (twitterUrl) => {
-	const deferred = Q.defer();
-
+const upload_twitter_status = async (twitterUrl) => {
 	const status = getStatusId(twitterUrl);
 
-	twitter_client.get('statuses/show', {
-		id: status.id
-	}, (err, data) => {
-		const segments = build_tweet_text(data);
+	const response = await twitter_client.get('statuses/show', { id: status.id });
+	const data = response.data;
 
-		if (data.extended_entities) {
-			const media = data.extended_entities.media[0];
+	const segments = build_tweet_text(data);
 
-			if (media.type == 'photo') {
-				handle_photo_tweet(media.media_url, segments, deferred);
-			} else if (media.type == 'animated_gif') {
-				handle_gif_tweet(media.video_info.variants[0].url, segments, deferred);
-			} else if (media.type == 'video') {
-				const variants = media.video_info.variants;
+	if (data.extended_entities) {
+		const media = data.extended_entities.media[0];
 
-				for (let i = 0; i < variants.length; i++) {
-					if (variants[i].content_type == 'video/mp4' && variants[i].bitrate == 832000) {
-						handle_gif_tweet(variants[i].url, segments, deferred);
-						break;
-					}
+		if (media.type == 'photo') {
+			return handle_photo_tweet(media.media_url, segments);
+		} else if (media.type == 'animated_gif') {
+			return handle_gif_tweet(media.video_info.variants[0].url, segments);
+		} else if (media.type == 'video') {
+			const variants = media.video_info.variants;
+
+			for (let i = 0; i < variants.length; i++) {
+				if (variants[i].content_type == 'video/mp4' && variants[i].bitrate == 832000) {
+					return handle_gif_tweet(variants[i].url, segments);
 				}
 			}
-		} else {
-			handle_text_tweet(segments, deferred);
 		}
-	});
+	}
 
-	return deferred.promise;
+	return handle_text_tweet(segments);
 };
 
 const getStatusId = (uri) => {
@@ -65,28 +58,18 @@ const build_tweet_text = (data) => {
 	return segments;
 };
 
-const handle_photo_tweet = (photoUrl, segments, deferred) => {
-	images.upload_from_url(photoUrl).then((msg) => {
-		deferred.resolve({
-			segments: segments,
-			pictureId: msg.pictureId
-		});
-	});
+const handle_photo_tweet = async (photoUrl, segments) => {
+	const msg = await images.upload_from_url(photoUrl);
+	return { segments: segments, pictureId: msg.pictureId };
 };
 
-const handle_gif_tweet = (gifUrl, segments, deferred) => {
-	videos.upload_from_url(gifUrl).then((msg) => {
-		deferred.resolve({
-			segments: segments,
-			pictureId: msg.pictureId
-		});
-	});
+const handle_gif_tweet = async (gifUrl, segments) => {
+	const msg = await videos.upload_from_url(gifUrl);
+	return { segments: segments, pictureId: msg.pictureId };
 };
 
-const handle_text_tweet = (segments, deferred) => {
-	deferred.resolve({
-		segments: segments
-	});
+const handle_text_tweet = (segments) => {
+	return { segments: segments };
 };
 
 module.exports = {

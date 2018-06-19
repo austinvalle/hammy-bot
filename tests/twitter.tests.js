@@ -61,18 +61,20 @@ describe('twitter module', () => {
 			const statusId = '12345678',
 				twitterUrl = ' https://twitter.com/FakeProfile/status/' + statusId,
 				twitterData = {
-					text: 'Here is a fake tweet bro!',
-					user: {
-						screen_name: 'FakeTweeter123'
+					data: {
+						text: 'Here is a fake tweet bro!',
+						user: {
+							screen_name: 'FakeTweeter123'
+						}
 					}
 				};
-			twitterClientStub.callsArgWith(2, null, twitterData, null);
+			twitterClientStub.resolves(twitterData);
 
 			twitter.upload_twitter_status(twitterUrl).then((msg) => {
 				try {
 					should.not.exist(msg.pictureId);
-					expect(msg.segments[0][1]).to.equal('"' + twitterData.text + '"');
-					expect(msg.segments[2][1]).to.equal('@' + twitterData.user.screen_name);
+					expect(msg.segments[0][1]).to.equal('"' + twitterData.data.text + '"');
+					expect(msg.segments[2][1]).to.equal('@' + twitterData.data.user.screen_name);
 					sinon.assert.notCalled(images.upload_from_url);
 					sinon.assert.notCalled(videos.upload_from_url);
 
@@ -87,28 +89,30 @@ describe('twitter module', () => {
 			const statusId = '12345678',
 				twitterUrl = ' https://twitter.com/FakeProfile/status/' + statusId,
 				twitterData = {
-					text: 'Here is a fake tweet with a picture bro!',
-					user: {
-						screen_name: 'FakeTweeter123'
-					},
-					extended_entities: {
-						media: [{
-							type: 'photo',
-							media_url: 'http://fakeurl/fakepicture.jpg'
-						}]
+					data: {
+						text: 'Here is a fake tweet with a picture bro!',
+						user: {
+							screen_name: 'FakeTweeter123'
+						},
+						extended_entities: {
+							media: [{
+								type: 'photo',
+								media_url: 'http://fakeurl/fakepicture.jpg'
+							}]
+						}
 					}
 				};
-			twitterClientStub.callsArgWith(2, null, twitterData, null);
+			twitterClientStub.resolves(twitterData);
 
 			twitter.upload_twitter_status(twitterUrl).then((msg) => {
 				try {
 					expect(msg.pictureId).to.equal(1234);
-					expect(msg.segments[0][1]).to.equal('"' + twitterData.text + '"');
-					expect(msg.segments[2][1]).to.equal('@' + twitterData.user.screen_name);
+					expect(msg.segments[0][1]).to.equal('"' + twitterData.data.text + '"');
+					expect(msg.segments[2][1]).to.equal('@' + twitterData.data.user.screen_name);
 
 					sinon.assert.calledOnce(images.upload_from_url);
 					sinon.assert.calledWith(images.upload_from_url,
-						twitterData.extended_entities.media[0].media_url);
+						twitterData.data.extended_entities.media[0].media_url);
 
 					sinon.assert.notCalled(videos.upload_from_url);
 
@@ -123,34 +127,36 @@ describe('twitter module', () => {
 			const statusId = '12345678',
 				twitterUrl = ' https://twitter.com/FakeProfile/status/' + statusId,
 				twitterData = {
-					text: 'Here is a fake tweet with a gif bro!',
-					user: {
-						screen_name: 'FakeTweeter123'
-					},
-					extended_entities: {
-						media: [{
-							type: 'animated_gif',
-							video_info: {
-								variants: [{
-									url: 'http://fakeurl/fakegif.mp4'
-								}]
-							}
-						}]
+					data: {
+						text: 'Here is a fake tweet with a gif bro!',
+						user: {
+							screen_name: 'FakeTweeter123'
+						},
+						extended_entities: {
+							media: [{
+								type: 'animated_gif',
+								video_info: {
+									variants: [{
+										url: 'http://fakeurl/fakegif.mp4'
+									}]
+								}
+							}]
+						}
 					}
 				};
-			twitterClientStub.callsArgWith(2, null, twitterData, null);
+			twitterClientStub.resolves(twitterData);
 
 			twitter.upload_twitter_status(twitterUrl).then((msg) => {
 				try {
 					expect(msg.pictureId).to.equal(12345678);
-					expect(msg.segments[0][1]).to.equal('"' + twitterData.text + '"');
-					expect(msg.segments[2][1]).to.equal('@' + twitterData.user.screen_name);
+					expect(msg.segments[0][1]).to.equal('"' + twitterData.data.text + '"');
+					expect(msg.segments[2][1]).to.equal('@' + twitterData.data.user.screen_name);
 
 					sinon.assert.notCalled(images.upload_from_url);
 
 					sinon.assert.calledOnce(videos.upload_from_url);
 					sinon.assert.calledWith(videos.upload_from_url,
-						twitterData.extended_entities.media[0].video_info.variants[0].url);
+						twitterData.data.extended_entities.media[0].video_info.variants[0].url);
 
 					done();
 				} catch (err) {
@@ -163,40 +169,42 @@ describe('twitter module', () => {
 			const statusId = '12345678',
 				twitterUrl = ' https://twitter.com/FakeProfile/status/' + statusId,
 				twitterData = {
-					text: 'Here is a fake tweet with a gif bro!',
-					user: {
-						screen_name: 'FakeTweeter123'
-					},
-					extended_entities: {
-						media: [{
-							type: 'video',
-							video_info: {
-								variants: [{
-									content_type: 'video/mp4',
-									bitrate: 32000,
-									url: 'http://fakeurl/fakesmallvideo.mp4'
-								}, {
-									content_type: 'video/mp4',
-									bitrate: 832000,
-									url: 'http://fakeurl/fakevideo.mp4'
-								}]
-							}
-						}]
+					data: {
+						text: 'Here is a fake tweet with a gif bro!',
+						user: {
+							screen_name: 'FakeTweeter123'
+						},
+						extended_entities: {
+							media: [{
+								type: 'video',
+								video_info: {
+									variants: [{
+										content_type: 'video/mp4',
+										bitrate: 32000,
+										url: 'http://fakeurl/fakesmallvideo.mp4'
+									}, {
+										content_type: 'video/mp4',
+										bitrate: 832000,
+										url: 'http://fakeurl/fakevideo.mp4'
+									}]
+								}
+							}]
+						}
 					}
 				};
-			twitterClientStub.callsArgWith(2, null, twitterData, null);
+			twitterClientStub.resolves(twitterData);
 
 			twitter.upload_twitter_status(twitterUrl).then((msg) => {
 				try {
 					expect(msg.pictureId).to.equal(12345678);
-					expect(msg.segments[0][1]).to.equal('"' + twitterData.text + '"');
-					expect(msg.segments[2][1]).to.equal('@' + twitterData.user.screen_name);
+					expect(msg.segments[0][1]).to.equal('"' + twitterData.data.text + '"');
+					expect(msg.segments[2][1]).to.equal('@' + twitterData.data.user.screen_name);
 
 					sinon.assert.notCalled(images.upload_from_url);
 
 					sinon.assert.calledOnce(videos.upload_from_url);
 					sinon.assert.calledWith(videos.upload_from_url,
-						twitterData.extended_entities.media[0].video_info.variants[1].url);
+						twitterData.data.extended_entities.media[0].video_info.variants[1].url);
 
 					done();
 				} catch (err) {
