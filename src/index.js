@@ -1,3 +1,5 @@
+const PrettyError = require('pretty-error');
+
 const bootstrap = require('./bootstrap');
 
 const initializeApp = async () => {
@@ -6,7 +8,10 @@ const initializeApp = async () => {
 };
 
 process.on('uncaughtException', (err) => {
-	console.log(err);
+	const pe = new PrettyError();
+	const renderedError = pe.render(err);
+
+	console.log(renderedError);
 });
 
 initializeApp();
