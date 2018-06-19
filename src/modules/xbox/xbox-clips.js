@@ -1,22 +1,26 @@
 const Xray = require('x-ray');
-const Q = require('q');
 
 const videos = require('../media/videos');
 
-const upload_xboxdvr_video = (pageUrl) => {
-	const deferred = Q.defer();
+const upload_xboxdvr_video = async (pageUrl) => {
+	const searchForVideoQuery = new Xray()(pageUrl, 'video source@src');
 
-	const xray = new Xray();
+	const videoUrl = await executeXray(searchForVideoQuery);
+	const msg = await videos.upload_from_url(videoUrl, 18);
 
-	xray(pageUrl, 'video source@src')((err, videoUrl) => {
-		videos.upload_from_url(videoUrl, 18).then((msg) => {
-			deferred.resolve({
-				pictureId: msg.pictureId
-			});
+	return { pictureId: msg.pictureId };
+};
+
+const executeXray = (query) => {
+	return new Promise((resolve, reject) => {
+		query((err, results) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(results);
+			}
 		});
 	});
-
-	return deferred.promise;
 };
 
 module.exports = {
