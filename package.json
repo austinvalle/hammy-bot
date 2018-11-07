@@ -30,7 +30,7 @@
     "fluent-ffmpeg": "^2.1.2",
     "fs-extra": "^6.0.1",
     "giphy-api": "^1.2.7",
-    "hangupsjs": "https://github.com/yakyak/hangupsjs.git",
+    "hangupsjs": "git+https://github.com/yakyak/hangupsjs.git",
     "moment": "^2.22.2",
     "request-promise": "^4.2.2",
     "tough-cookie-filestore": "0.0.1",
